@@ -46,7 +46,26 @@ LeadGenPy performs the following tasks:
 
 3. **Authentication:**
     - Prompts for Google sign-in if not authenticated (used for storing data in Google Sheets).
+4. **Select Extraction Mode (Mode 1):**
 
+    - Choose the extraction mode to search for a specific business type and location on Google Maps.
+    - Follow on-screen instructions to provide the business name and location.
+    - The script will loop through search results, extract business details, and store data in CSV (data.csv) and JSON (data.json) files.
+5. **Lead Generation Using Chat GPT API (Mode 4):**
+
+    - Choose the lead generation mode to generate personalized messages using the OpenAI Chat GPT API.
+    - The script will use the collected business data to create custom lead messages.
+6. **Sending Emails (Mode 4):**
+
+    - The script will use the generated messages to send personalized emails to the extracted email addresses.
+7. **Additional Modes:**
+
+    - Explore other modes for viewing the extracted dataset, transferring data to Google Sheets, and more.
+8. **Production Mode (Mode 5):**
+
+    - A combined mode that includes extraction, data transfer, and email sending for a streamlined workflow.
+9. **Development Mode (Else):**
+    - Cleanup mode for sheet maintenance.
 
 
 
