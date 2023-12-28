@@ -1,4 +1,5 @@
 import base64
+import os
 import time
 from email.message import EmailMessage
 from Configs.google_api_config import service
@@ -30,10 +31,10 @@ class Emails:
                         message = EmailMessage()
                         
                         email_address = 'wikkiedev@gmail.com' 
-                        #email_address = rows[-2] - uncomment this to send the mail to the respective users
+                        #email_address = rows[-2] - uncomment this to send the mail to extracted mail address
                         print(f"\n[LOG] - SENDING MAIL TO {email_address}\n")
                         message['To'] = email_address
-                        message['From'] = 'wikkiedev@gmail.com'
+                        message['From'] = os.getenv("EMAIL_ADDRESS")
                         message['Subject'] = content[0]
                         message.set_content(content[1])
 
