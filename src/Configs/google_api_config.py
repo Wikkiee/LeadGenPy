@@ -5,10 +5,18 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build as __build
 from googleapiclient.errors import HttpError
+import time
+from beaupy.spinners import *
+
+
+
 
 
 def __initialize():
-    print("[LOG] - INITIALIZING GOOGLE API")
+    spinner = Spinner(DOTS, "Authenticating with Google API ...")
+    spinner.start()
+    
+    time.sleep(2)
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/gmail.modify"]
     credentials = None
     if os.path.exists("token.json"):
@@ -25,8 +33,9 @@ def __initialize():
         sheet = __build('sheets', 'v4', credentials=credentials)
         gmail = __build('gmail','v1',credentials=credentials)
         sheet = sheet.spreadsheets()
-        print("[LOG] - INITIALIZED GOOGLE SHEET API AND GMAIL API")
+        spinner.stop()
         return {"sheet":sheet,"gmail":gmail}
     except HttpError as error:
+        spinner.stop()
         print(error)
 service = __initialize()

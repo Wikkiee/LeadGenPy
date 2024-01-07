@@ -1,10 +1,24 @@
 from selenium import webdriver
+from beaupy import select,prompt
+from rich.console import Console
+import time
+from beaupy.spinners import *
+
+
+
+
 def __initialize():
+    console = Console()
+    spinner = Spinner(DOTS, "Initializing Selenium Webdriver ...")
+    spinner.start()
+    time.sleep(1)
     chrome_options = webdriver.ChromeOptions()
-    mode = int(input("<== SELENIUM: ==>\n1 - Launch headless Mode\n2 - Development Mode (Browswer Mode)\nEnter the value : "))
-    if mode == 1:
-        chrome_options.add_argument("--headless=new")
     
+    #mode = int(input("<== SELENIUM: ==>\n1 - Launch headless Mode\n2 - Development Mode (Browswer Mode)\nEnter the value : "))
+    mode = select(["Launch Headless Mode", "Launch Development Mode (Browser Mode)"])
+    if mode  == "Launch Headless Mode":
+        chrome_options.add_argument("--headless=new")
+    console.print(f"[blue]{mode}[/blue]")
     prefs = {'profile.default_content_setting_values': {'cookies': 2, 'images': 2,
                                                         'plugins': 2, 'popups': 2, 'geolocation': 2,
                                                         'notifications': 2, 'auto_select_certificate': 2, 'fullscreen': 2,
@@ -20,7 +34,7 @@ def __initialize():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-infobars")
 
-    print("[LOG] - INITIALIZED SELENIUM DRIVER")
+    spinner.stop()
     return webdriver.Chrome(
     '../assets/chromedriver.exe', chrome_options=chrome_options)
 driver = __initialize()
