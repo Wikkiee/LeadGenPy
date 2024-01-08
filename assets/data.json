@@ -1,1 +1,38 @@
-[{"BusinessName": "Poorvika Mobiles Chennai - EA Mall", "Address": "No:sl24/lgf (45-50L, Express Avenue Mall, Whites Rd, Express Estate, Royapettah, Chennai, Tamil Nadu 600002", "PhoneNumber": "044 4366 6666", "Website": "poorvika.com", "Category": "Cell phone store", "Rating": "4.6", "ReviewCount": "1,582", "google_map_link": "https://www.google.com/maps/place/Poorvika+Mobiles+Chennai+-+EA+Mall/data=!4m7!3m6!1s0x3a52663d67aff25d:0x2acc2a98d3f4d97e!8m2!3d13.0586503!4d80.2641258!16s%2Fg%2F11b5plj7jf!19sChIJXfKvZz1mUjoRftn005gqzCo?authuser=0&hl=en&rclk=1", "email": "null", "status": "null"}, {"BusinessName": "buy mobile", "Address": "IOA Complex, 35, Royapettah High Rd, Jagadambal Colony, Teachers Colony, Royapettah, Chennai, Tamil Nadu 600014", "PhoneNumber": "094430 78856", "Website": "null", "Category": "Cell phone store", "Rating": "4.4", "ReviewCount": "14", "google_map_link": "https://www.google.com/maps/place/buy+mobile/data=!4m7!3m6!1s0x3a52662e366f564d:0xb31b80d7d2bb70c1!8m2!3d13.0473345!4d80.2664517!16s%2Fg%2F11clsz2qyw!19sChIJTVZvNi5mUjoRwXC70teAG7M?authuser=0&hl=en&rclk=1", "email": "null", "status": "null"}]
+[
+  {
+    "BusinessName": "Restaurant Tradition",
+    "Address": "\u00d6sterl\u00e5nggatan 1, 113 53 Stockholm, Sweden",
+    "PhoneNumber": "+46 8 20 35 25",
+    "Website": "restaurangtradition.se",
+    "Category": "Swedish restaurant",
+    "Rating": "4.5",
+    "ReviewCount": "2,420",
+    "google_map_link": "https://www.google.com/maps/place/Restaurant+Tradition/data=!4m7!3m6!1s0x465f9d6ea9aaaaab:0xa4841fc300c6afe2!8m2!3d59.3259527!4d18.0738533!16s%2Fg%2F1hm5fzgtk!19sChIJq6qqqW6dX0YR4q_GAMMfhKQ?authuser=0&hl=en&rclk=1",
+    "email": "gamlastan@restaurangtradition.se",
+    "status": "null"
+  },
+  {
+    "BusinessName": "Rolfs K\u00f6k",
+    "Address": "Tegn\u00e9rgatan 41, 111 61 Stockholm, Sweden",
+    "PhoneNumber": "+46 8 10 16 96",
+    "Website": "rolfskok.se",
+    "Category": "Swedish restaurant",
+    "Rating": "4.5",
+    "ReviewCount": "2,354",
+    "google_map_link": "https://www.google.com/maps/place/Rolfs+K%C3%B6k/data=!4m7!3m6!1s0x465f9d6612867693:0x9761e4a2f1b35be!8m2!3d59.3387043!4d18.0570522!16s%2Fg%2F11dyld84s!19sChIJk3aGEmadX0YRvjUbL0oedgk?authuser=0&hl=en&rclk=1",
+    "email": "info@rolfskok.se",
+    "status": "null"
+  },
+  {
+    "BusinessName": "Den Gyldene Freden",
+    "Address": "\u00d6sterl\u00e5nggatan 51, 111 31 Stockholm, Sweden",
+    "PhoneNumber": "+46 8 24 97 60",
+    "Website": "gyldenefreden.se",
+    "Category": "Swedish restaurant",
+    "Rating": "4.3",
+    "ReviewCount": "1,207",
+    "google_map_link": "https://www.google.com/maps/place/Den+Gyldene+Freden/data=!4m7!3m6!1s0x465f77e2d0fa60a3:0x8adb31e9ae0128a5!8m2!3d59.3231727!4d18.0737898!16s%2Fm%2F026qsj3!19sChIJo2D60OJ3X0YRpSgBrukx24o?authuser=0&hl=en&rclk=1",
+    "email": "info@gyldenefreden.se",
+    "status": "null"
+  }
+]

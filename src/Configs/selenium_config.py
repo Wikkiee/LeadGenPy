@@ -11,7 +11,6 @@ def __initialize():
     console = Console()
     spinner = Spinner(DOTS, "Initializing Selenium Webdriver ...")
     spinner.start()
-    time.sleep(1)
     chrome_options = webdriver.ChromeOptions()
     
     #mode = int(input("<== SELENIUM: ==>\n1 - Launch headless Mode\n2 - Development Mode (Browswer Mode)\nEnter the value : "))
@@ -28,8 +27,8 @@ def __initialize():
                                                         'push_messaging': 2, 'ssl_cert_decisions': 2, 'metro_switch_to_desktop': 2,
                                                         'protected_media_identifier': 2, 'app_banner': 2, 'site_engagement': 2,
                                                         'durable_storage': 2}}
+    #chrome_options.add_experimental_option('prefs', prefs)
     chrome_options.add_argument("start-maximized")
-    chrome_options.add_experimental_option('prefs', prefs)
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-infobars")

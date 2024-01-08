@@ -1,0 +1,345 @@
+[08:34:02] - REMOVING DUPLICATE ROWS
+[08:34:02] - DUPLICATE ROWS REMOVED[08:34:03] - GENERATING PERSONALIZED CONTENT
+[08:34:02] - REMOVING DUPLICATE ROWS
+[08:34:02] - DUPLICATE ROWS REMOVED[08:34:03] - GENERATING PERSONALIZED CONTENT
+[08:34:02] - REMOVING DUPLICATE ROWS
+[08:34:02] - DUPLICATE ROWS REMOVED[08:34:03] - GENERATING PERSONALIZED CONTENT
+[10:42:00] - REMOVING DUPLICATE ROWS
+[10:42:00] - DUPLICATE ROWS REMOVED[10:42:01] - GENERATING PERSONALIZED CONTENT
+[10:42:01] - GENERATING FOR -Poorvika Mobiles Chennai - EA Mall[10:42:01] -  SENDING MAIL TO wikkiedev@gmail.com[10:42:01] - PERSONALIZED EMAIL: FAILED[10:42:00] - Updating Personalized Email Status[10:42:00] - Updated Personalized Email Status[10:42:00] - REMOVING DUPLICATE ROWS
+[10:42:00] - DUPLICATE ROWS REMOVED[10:42:01] - GENERATING PERSONALIZED CONTENT
+[10:42:01] - GENERATING FOR -Poorvika Mobiles Chennai - EA Mall[10:42:01] -  SENDING MAIL TO wikkiedev@gmail.com[10:42:01] - PERSONALIZED EMAIL: FAILED[10:42:00] - Updating Personalized Email Status[10:42:00] - Updated Personalized Email Status[10:49:29] - REMOVING DUPLICATE ROWS
+[10:49:29] - DUPLICATE ROWS REMOVED[10:49:29] - Updating Personalized Email Status[10:49:29] - Updated Personalized Email Status[10:49:31] - GENERATING PERSONALIZED CONTENT
+[10:49:31] - GENERATING FOR -Poorvika Mobiles Chennai - EA Mall[10:49:31] -  SENDING MAIL TO wikkiedev@gmail.com[10:49:31] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce7834764f620d[10:49:31] - Stopped for 3 Sec to prevent ChatGPT from continuous request error[11:14:06] - LOADING ITEMS[11:16:00] - LOADING ITEMS[11:16:33] - LOADING ITEMS[11:16:33] - ITEMS LOADED[11:16:33] - 6 ITEMS FOUND[11:16:33] - EXTRACTING DATA[11:16:33] -  VISITNG : https://www.google.com/ma... [11:16:33] - SOURCE PAGE EXTRACTED[11:16:19] - EXTRACTING DETAILS[11:16:19] - Name: Godsmak.se[11:16:19] - ADDRESS Found[11:16:19] - WEBSITE FOUND[11:16:19] - PHONE NUMBER FOUND
+[11:16:19] - EXTRACTING EMAIL ADDRESS FROM https://godsmak.se[11:16:19] - EMAIL FOUND : info@godsmak.se[11:16:33] - DETAILS EXTRACTED[11:22:37] - Generating JSON Data
+[11:23:09] - LOADING ITEMS[11:23:09] - ITEMS LOADED[11:23:09] - 5 ITEMS FOUND[11:23:09] - EXTRACTING DATA[11:23:09] -  VISITNG : https://www.google.com/ma... [11:23:09] - SOURCE PAGE EXTRACTED[11:22:41] - EXTRACTING DETAILS[11:22:41] - Name: Den Gyldene Freden[11:22:41] - ADDRESS Found[11:22:41] - WEBSITE FOUND[11:22:41] - PHONE NUMBER FOUND
+[11:22:41] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se[11:22:41] - EMAIL FOUND : info@gyldenefreden.se[11:23:09] - DETAILS EXTRACTED[11:23:09] -  VISITNG : https://www.google.com/ma... [11:23:09] - SOURCE PAGE EXTRACTED[11:22:41] - EXTRACTING DETAILS[11:22:41] - Name: Mondo Tapas Bar & Restaurant[11:23:09] - DETAILS EXTRACTED[11:23:09] - DATASET LOADED[11:23:09] - EXTRACTION COMPLETED[11:31:56] - Generating JSON Data
+[11:32:34] - LOADING ITEMS[11:32:34] - ITEMS LOADED[11:32:34] - 5 ITEMS FOUND[11:32:34] - EXTRACTING DATA[11:32:34] -  VISITNG : https://www.google.com/ma... [11:32:34] - SOURCE PAGE EXTRACTED[11:32:03] - EXTRACTING DETAILS[11:32:03] - Name: Godsmak.se[11:32:03] - ADDRESS Found[11:32:03] - WEBSITE FOUND[11:32:03] - PHONE NUMBER FOUND
+[11:32:03] - EXTRACTING EMAIL ADDRESS FROM https://godsmak.se[11:32:03] - EMAIL FOUND : info@godsmak.se[11:32:34] - DETAILS EXTRACTED[11:32:34] -  VISITNG : https://www.google.com/ma... [11:32:34] - SOURCE PAGE EXTRACTED[11:32:03] - EXTRACTING DETAILS[11:32:03] - Name: Swede Hollow[11:32:03] - ADDRESS Found[11:32:03] - WEBSITE FOUND[11:32:03] - PHONE NUMBER FOUND
+[11:32:03] - EXTRACTING EMAIL ADDRESS FROM https://hotelcstockholm.se[11:32:03] - EMAIL FOUND : reservations@hotelcstockholm.se[11:32:34] - DETAILS EXTRACTED[11:32:34] -  VISITNG : https://www.google.com/ma... [11:32:34] - SOURCE PAGE EXTRACTED[11:32:03] - EXTRACTING DETAILS[11:32:03] - Name: At Six Dining Room[11:32:03] - ADDRESS Found[11:32:03] - WEBSITE FOUND[11:32:03] - PHONE NUMBER FOUND
+[11:32:03] - EXTRACTING EMAIL ADDRESS FROM https://hotelatsix.com[11:32:03] - EMAIL FOUND : info@hotelatsix.com[11:32:34] - DETAILS EXTRACTED[11:32:34] - DATASET LOADED[11:32:34] - EXTRACTION COMPLETED[12:07:00] - Generating JSON Data
+[12:07:19] - LOADING ITEMS
+[12:07:19] - ITEMS LOADED
+[12:07:19] - 6 ITEMS FOUND
+[12:07:19] - EXTRACTING DATA
+[12:07:19] -  VISITNG : https://www.google.com/ma... 
+[12:07:19] - SOURCE PAGE EXTRACTED
+[12:07:06] - EXTRACTING DETAILS
+[12:07:06] - Name: Den Gyldene Freden
+[12:07:06] - ADDRESS Found
+[12:07:06] - WEBSITE FOUND
+[12:07:06] - PHONE NUMBER FOUND
+
+[12:07:06] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se
+[12:07:06] - EMAIL FOUND : info@gyldenefreden.se
+[12:07:19] - DETAILS EXTRACTED
+[12:07:19] -  VISITNG : https://www.google.com/ma... 
+[12:07:19] - SOURCE PAGE EXTRACTED
+[12:07:06] - EXTRACTING DETAILS
+[12:07:06] - Name: Swede Hollow
+[12:07:06] - ADDRESS Found
+[12:07:06] - WEBSITE FOUND
+[12:07:06] - PHONE NUMBER FOUND
+
+[12:07:06] - EXTRACTING EMAIL ADDRESS FROM https://hotelcstockholm.se
+[12:07:06] - EMAIL FOUND : reservations@hotelcstockholm.se
+[12:07:19] - DETAILS EXTRACTED
+[12:07:19] -  VISITNG : https://www.google.com/ma... 
+[12:07:19] - SOURCE PAGE EXTRACTED
+[12:07:06] - EXTRACTING DETAILS
+[12:07:06] - Name: At Six Dining Room
+[12:07:06] - ADDRESS Found
+[12:07:06] - WEBSITE FOUND
+[12:07:06] - PHONE NUMBER FOUND
+
+[12:07:06] - EXTRACTING EMAIL ADDRESS FROM https://hotelatsix.com
+[12:07:06] - EMAIL FOUND : info@hotelatsix.com
+[12:07:19] - DETAILS EXTRACTED
+[12:07:19] - DATASET LOADED
+[12:07:19] - EXTRACTION COMPLETED
+[12:07:00] - REMOVING DUPLICATE ROWS
+[12:07:00] - DUPLICATE ROWS REMOVED
+[12:07:02] - GENERATING PERSONALIZED CONTENT
+[12:07:02] - GENERATING FOR -Godsmak.se
+[12:07:02] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:07:02] - PERSONALIZED EMAIL: FAILED
+[12:07:00] - Updating Personalized Email Status
+[12:07:00] - Updated Personalized Email Status
+[12:07:00] - REMOVING DUPLICATE ROWS
+[12:07:00] - DUPLICATE ROWS REMOVED
+[12:07:02] - GENERATING PERSONALIZED CONTENT
+[12:07:02] - GENERATING FOR -Godsmak.se
+[12:07:02] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:07:02] - PERSONALIZED EMAIL: FAILED
+[12:07:00] - Updating Personalized Email Status
+[12:07:00] - Updated Personalized Email Status
+[12:11:06] - REMOVING DUPLICATE ROWS
+[12:11:06] - DUPLICATE ROWS REMOVED
+[12:11:06] - Updating Personalized Email Status
+[12:11:06] - Updated Personalized Email Status
+[12:11:07] - GENERATING PERSONALIZED CONTENT
+[12:11:07] - GENERATING FOR -Godsmak.se
+[12:11:07] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:11:07] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce7ce1bd6e7607
+[12:11:07] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[12:11:06] - REMOVING DUPLICATE ROWS
+[12:11:06] - DUPLICATE ROWS REMOVED
+[12:11:06] - Updating Personalized Email Status
+[12:11:06] - Updated Personalized Email Status
+[12:11:07] - GENERATING PERSONALIZED CONTENT
+[12:11:07] - GENERATING FOR -Den Gyldene Freden
+[12:11:07] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:11:07] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce7cf4743e093c
+[12:11:07] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[12:13:35] - REMOVING DUPLICATE ROWS
+[12:13:35] - DUPLICATE ROWS REMOVED
+[12:13:36] - GENERATING PERSONALIZED CONTENT
+[12:14:07] - REMOVING DUPLICATE ROWS
+[12:14:07] - DUPLICATE ROWS REMOVED
+[12:14:09] - GENERATING PERSONALIZED CONTENT
+[12:15:52] - REMOVING DUPLICATE ROWS
+[12:15:52] - DUPLICATE ROWS REMOVED
+[12:15:52] - Updating Personalized Email Status
+[12:15:52] - Updated Personalized Email Status
+[12:15:53] - GENERATING PERSONALIZED CONTENT
+[12:15:53] - GENERATING FOR -Swede Hollow
+[12:15:53] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:15:53] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce7d277609cb10
+[12:15:53] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[12:15:53] - GENERATING FOR -At Six Dining Room
+[12:15:53] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:15:53] - PERSONALIZED EMAIL: FAILED
+[12:15:52] - Updating Personalized Email Status
+[12:15:52] - Updated Personalized Email Status
+[12:15:52] - REMOVING DUPLICATE ROWS
+[12:15:52] - DUPLICATE ROWS REMOVED
+[12:15:52] - Updating Personalized Email Status
+[12:15:52] - Updated Personalized Email Status
+[12:15:53] - GENERATING PERSONALIZED CONTENT
+[12:15:53] - GENERATING FOR -At Six Dining Room
+[12:15:53] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:15:53] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce7d3434ff1b95
+[12:15:53] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[12:22:15] - REMOVING DUPLICATE ROWS
+[12:22:15] - DUPLICATE ROWS REMOVED
+[12:22:15] - GENERATING PERSONALIZED CONTENT
+[12:22:15] - GENERATING FOR -Den Gyldene Freden
+[12:22:15] -  SENDING MAIL TO wikkiedev@gmail.com
+[12:22:15] - PERSONALIZED EMAIL: FAILED
+[12:22:15] - Updating Personalized Email Status
+[12:22:15] - Updated Personalized Email Status
+[21:31:21] - Generating JSON Data
+[21:31:36] - LOADING ITEMS
+[21:31:36] - ITEMS LOADED
+[21:31:36] - 5 ITEMS FOUND
+[21:31:36] - EXTRACTING DATA
+[21:31:36] -  VISITNG : https://www.google.com/ma... 
+[21:31:36] - SOURCE PAGE EXTRACTED
+[21:31:25] - EXTRACTING DETAILS
+[21:31:25] - Name: Kafe Himlavalvet
+[21:31:25] - ADDRESS Found
+[21:31:25] - WEBSITE FOUND
+[21:31:25] - PHONE NUMBER FOUND
+
+[21:31:25] - EXTRACTING EMAIL ADDRESS FROM https://kafehimlavalvet.se
+[21:31:25] - EMAIL FOUND : camilla@kafehimlavalvet.com
+[21:31:36] - DETAILS EXTRACTED
+[21:31:36] -  VISITNG : https://www.google.com/ma... 
+[21:31:36] - SOURCE PAGE EXTRACTED
+[21:31:25] - EXTRACTING DETAILS
+[21:31:25] - Name: Den Gyldene Freden
+[21:31:25] - ADDRESS Found
+[21:31:25] - WEBSITE FOUND
+[21:31:25] - PHONE NUMBER FOUND
+
+[21:31:25] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se
+[21:31:25] - EMAIL FOUND : info@gyldenefreden.se
+[21:31:36] - DETAILS EXTRACTED
+[21:31:36] -  VISITNG : https://www.google.com/ma... 
+[21:31:36] - SOURCE PAGE EXTRACTED
+[21:31:25] - EXTRACTING DETAILS
+[21:31:25] - Name: Restaurant Tradition
+[21:31:25] - ADDRESS Found
+[21:31:25] - WEBSITE FOUND
+[21:31:25] - PHONE NUMBER FOUND
+
+[21:31:25] - EXTRACTING EMAIL ADDRESS FROM https://restaurangtradition.se
+[21:31:25] - EMAIL FOUND : gamlastan@restaurangtradition.se
+[21:31:36] - DETAILS EXTRACTED
+[21:31:36] - DATASET LOADED
+[21:31:36] - EXTRACTION COMPLETED
+[21:34:27] - Generating JSON Data
+[21:35:01] - LOADING ITEMS
+[21:35:01] - ITEMS LOADED
+[21:35:01] - 11 ITEMS FOUND
+[21:35:01] - EXTRACTING DATA
+[21:35:01] -  VISITNG : https://www.google.com/ma... 
+[21:35:01] - SOURCE PAGE EXTRACTED
+[21:34:32] - EXTRACTING DETAILS
+[21:34:32] - Name: Pop Story
+[21:34:32] - ADDRESS Found
+[21:34:32] - WEBSITE FOUND
+
+[21:34:32] - EXTRACTING EMAIL ADDRESS FROM https://popstory.se
+[21:34:32] - EMAIL FOUND : info@popstory.se
+[21:35:01] - DETAILS EXTRACTED
+[21:35:01] -  VISITNG : https://www.google.com/ma... 
+[21:35:01] - SOURCE PAGE EXTRACTED
+[21:34:32] - EXTRACTING DETAILS
+[21:34:32] - Name: Den Gyldene Freden
+[21:34:32] - ADDRESS Found
+[21:34:32] - WEBSITE FOUND
+[21:34:32] - PHONE NUMBER FOUND
+
+[21:34:32] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se
+[21:34:32] - EMAIL FOUND : info@gyldenefreden.se
+[21:35:01] - DETAILS EXTRACTED
+[21:35:01] -  VISITNG : https://www.google.com/ma... 
+[21:35:01] - SOURCE PAGE EXTRACTED
+[21:34:32] - EXTRACTING DETAILS
+[21:34:32] - Name: Restaurant Tradition
+[21:34:32] - ADDRESS Found
+[21:34:32] - WEBSITE FOUND
+[21:34:32] - PHONE NUMBER FOUND
+
+[21:34:32] - EXTRACTING EMAIL ADDRESS FROM https://restaurangtradition.se
+[21:34:32] - EMAIL FOUND : gamlastan@restaurangtradition.se
+[21:35:01] - DETAILS EXTRACTED
+[21:35:01] - DATASET LOADED
+[21:35:01] - EXTRACTION COMPLETED
+[21:34:27] - REMOVING DUPLICATE ROWS
+[21:34:27] - DUPLICATE ROWS REMOVED
+[21:34:27] - GENERATING PERSONALIZED CONTENT
+[21:34:27] - GENERATING FOR -Den Gyldene Freden
+[21:34:27] -  SENDING MAIL TO wikkiedev@gmail.com
+[21:34:27] - PERSONALIZED EMAIL: FAILED
+[21:34:27] - Updating Personalized Email Status
+[21:34:27] - Updated Personalized Email Status
+[21:39:22] - REMOVING DUPLICATE ROWS
+[21:39:22] - DUPLICATE ROWS REMOVED
+[21:39:22] - Updating Personalized Email Status
+[21:39:22] - Updated Personalized Email Status
+[21:39:22] - Updating Personalized Email Status
+[21:39:22] - Updated Personalized Email Status
+[21:39:22] - Updating Personalized Email Status
+[21:39:22] - Updated Personalized Email Status
+[21:39:22] - GENERATING PERSONALIZED CONTENT
+[21:39:22] - GENERATING FOR -Den Gyldene Freden
+[21:39:22] -  SENDING MAIL TO wikkiedev@gmail.com
+[21:39:22] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9d6444774c2b
+[21:39:22] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[21:39:22] - GENERATING FOR -Swede Hollow
+[21:39:22] -  SENDING MAIL TO wikkiedev@gmail.com
+[21:39:22] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9d69756246da
+[21:39:22] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[21:39:22] - GENERATING FOR -At Six Dining Room
+[21:39:22] -  SENDING MAIL TO wikkiedev@gmail.com
+[21:39:22] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9d6fe82ef304
+[21:39:22] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[21:39:22] - GENERATING FOR -Pop Story
+[21:56:04] - Generating JSON Data
+[21:56:35] - LOADING ITEMS
+[21:56:35] - ITEMS LOADED
+[21:56:35] - 5 ITEMS FOUND
+[21:56:35] - EXTRACTING DATA
+[21:56:35] -  VISITNG : https://www.google.com/ma... 
+[21:56:35] - SOURCE PAGE EXTRACTED
+[21:56:13] - EXTRACTING DETAILS
+[21:56:13] - Name: Den Gyldene Freden
+[21:56:13] - ADDRESS Found
+[21:56:13] - WEBSITE FOUND
+[21:56:13] - PHONE NUMBER FOUND
+
+[21:56:13] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se
+[21:56:13] - EMAIL FOUND : info@gyldenefreden.se
+[21:56:35] - DETAILS EXTRACTED
+[21:56:35] -  VISITNG : https://www.google.com/ma... 
+[21:56:35] - SOURCE PAGE EXTRACTED
+[21:56:13] - EXTRACTING DETAILS
+[21:56:13] - Name: Mondo Tapas Bar & Restaurant
+[21:56:35] - DETAILS EXTRACTED
+[21:56:35] -  VISITNG : https://www.google.com/ma... 
+[21:56:35] - SOURCE PAGE EXTRACTED
+[21:56:13] - EXTRACTING DETAILS
+[21:56:13] - Name: Restaurant Tradition
+[21:56:13] - ADDRESS Found
+[21:56:13] - WEBSITE FOUND
+[21:56:13] - PHONE NUMBER FOUND
+
+[21:56:13] - EXTRACTING EMAIL ADDRESS FROM https://restaurangtradition.se
+[21:56:13] - EMAIL FOUND : gamlastan@restaurangtradition.se
+[21:56:35] - DETAILS EXTRACTED
+[21:56:35] - DATASET LOADED
+[21:56:35] - EXTRACTION COMPLETED
+[22:01:06] - Generating JSON Data
+[22:01:36] - LOADING ITEMS
+[22:01:36] - ITEMS LOADED
+[22:01:36] - 6 ITEMS FOUND
+[22:01:36] - EXTRACTING DATA
+[22:01:36] -  VISITNG : https://www.google.com/ma... 
+[22:01:36] - SOURCE PAGE EXTRACTED
+[22:01:11] - EXTRACTING DETAILS
+[22:01:11] - Name: Restaurant Tradition
+[22:01:11] - ADDRESS Found
+[22:01:11] - WEBSITE FOUND
+[22:01:11] - PHONE NUMBER FOUND
+
+[22:01:11] - EXTRACTING EMAIL ADDRESS FROM https://restaurangtradition.se
+[22:01:11] - EMAIL FOUND : gamlastan@restaurangtradition.se
+[22:01:36] - DETAILS EXTRACTED
+[22:01:36] -  VISITNG : https://www.google.com/ma... 
+[22:01:36] - SOURCE PAGE EXTRACTED
+[22:01:11] - EXTRACTING DETAILS
+[22:01:11] - Name: Rolfs Kök
+[22:01:11] - ADDRESS Found
+[22:01:11] - WEBSITE FOUND
+[22:01:11] - PHONE NUMBER FOUND
+
+[22:01:11] - EXTRACTING EMAIL ADDRESS FROM https://rolfskok.se
+[22:01:11] - EMAIL FOUND : info@rolfskok.se
+[22:01:36] - DETAILS EXTRACTED
+[22:01:36] -  VISITNG : https://www.google.com/ma... 
+[22:01:36] - SOURCE PAGE EXTRACTED
+[22:01:11] - EXTRACTING DETAILS
+[22:01:11] - Name: Den Gyldene Freden
+[22:01:11] - ADDRESS Found
+[22:01:11] - WEBSITE FOUND
+[22:01:11] - PHONE NUMBER FOUND
+
+[22:01:11] - EXTRACTING EMAIL ADDRESS FROM https://gyldenefreden.se
+[22:01:11] - EMAIL FOUND : info@gyldenefreden.se
+[22:01:36] - DETAILS EXTRACTED
+[22:01:36] - DATASET LOADED
+[22:01:36] - EXTRACTION COMPLETED
+[22:01:06] - REMOVING DUPLICATE ROWS
+[22:01:06] - DUPLICATE ROWS REMOVED
+[22:01:06] - Updating Personalized Email Status
+[22:01:06] - Updated Personalized Email Status
+[22:01:06] - Updating Personalized Email Status
+[22:01:06] - Updated Personalized Email Status
+[22:01:06] - Updating Personalized Email Status
+[22:01:06] - Updated Personalized Email Status
+[22:01:06] - GENERATING PERSONALIZED CONTENT
+[22:01:06] - GENERATING FOR -Restaurant Tradition
+[22:01:06] -  SENDING MAIL TO wikkiedev@gmail.com
+[22:01:06] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9ecd4e87792e
+[22:01:06] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[22:01:06] - GENERATING FOR -Rolfs Kök
+[22:01:06] -  SENDING MAIL TO wikkiedev@gmail.com
+[22:01:06] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9ed1e32ba427
+[22:01:06] - Stopped for 3 Sec to prevent ChatGPT from continuous request error
+[22:01:06] - GENERATING FOR -Den Gyldene Freden
+[22:01:06] -  SENDING MAIL TO wikkiedev@gmail.com
+[22:01:06] - PERSONALIZED EMAIL SEND SUCCESSFULLY
+MESSAGE ID: 18ce9ed7435ea1d2
+[22:01:06] - Stopped for 3 Sec to prevent ChatGPT from continuous request error

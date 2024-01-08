@@ -16,7 +16,7 @@ def __initialize():
     spinner = Spinner(DOTS, "Authenticating with Google API ...")
     spinner.start()
     
-    time.sleep(2)
+    time.sleep(1)
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/gmail.modify"]
     credentials = None
     if os.path.exists("token.json"):

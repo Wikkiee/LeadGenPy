@@ -1,6 +1,7 @@
-import Configs.chatgpt_config
 import openai
 import json
+import traceback
+from beaupy.spinners import *
 
 class EmailContentGenerator:
     __data = {
@@ -11,13 +12,14 @@ class EmailContentGenerator:
             "Contact Number ": "9876543210"
         },
         "company": {
-            "Company Name": "Axe",
-            "Website": "Wikkieeee.com"
+            "Company Name": "Wikkie Pvt Limited",
+            "Website": "Wikkie.me"
         }
     }
 
     def generate(self,client_data):
-        print("\n[LOG] - GENERATING CONTENT USING CHATGPT\n")
+        spinner = Spinner(DIAMOND,"Generating content using ChatGPT...")
+        spinner.start()
         try:
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": f"""
                             Create a personalized lead email content to reach out to the client company and return the response as JSON Formatted [
@@ -35,10 +37,12 @@ class EmailContentGenerator:
                             *Use less \n\n in between the para and the 3-5 length paragraph is perferable*
         """}])
             content = json.loads(response["choices"][0]["message"]["content"]) 
-            print("\n[LOG] - CONTENT READY\n")
+            spinner.stop()
             return list(content.values())
         except Exception as error:
+            traceback.print_exc()
             print(error)
+            spinner.stop()
 
 
 
