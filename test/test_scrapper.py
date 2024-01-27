@@ -1,6 +1,6 @@
 import pytest
 
-from source.web_scrapper.scrapper import get_data_from_google_map
+from src.web_scrapper.scrapper import get_data_from_google_map
 
 
 

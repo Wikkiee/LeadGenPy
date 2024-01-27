@@ -1,7 +1,7 @@
 import time
 from EmailController.personalized_email_sender import PersonalizedContents 
 from Utils.store import Store
-from WebScrapper.scrapper import Scrappers  
+from src.web_scrapper.scrapper import Scrappers
 from Configs.selenium_config import driver
 from Configs.database_config import get_database_connection
 from beaupy import confirm, select,prompt
