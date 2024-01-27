@@ -3,3 +3,5 @@ token.json
 credentials.json
 *.pyc
 *.ipynb
+chromedriver.exe
+venv
