@@ -3,9 +3,9 @@ import re
 import traceback
 import requests
 from bs4 import BeautifulSoup
-from Configs.selenium_config import driver
+from Configs.seleniumDriver import Driver as driver
 from selenium.webdriver.common.by import By
-from Configs.database_config import get_database_connection
+from Configs.database import get_database_connection
 from Utils.store import generate_json
 
 
@@ -112,7 +112,6 @@ def get_business_email():
 
 
 def get_allabolag_details():
-
     connection = get_database_connection()
     cursor = connection.cursor()
     cursor.execute('SELECT allabolag_id,organization_number FROM allabolag WHERE registered_name="null"')
@@ -187,7 +186,6 @@ def get_allabolag_details():
 
 def get_business_details(home_page_soup):
     try:
-
         business_data = {
             "business_name": "null",
             "business_address": "null",

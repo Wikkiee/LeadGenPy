@@ -2,7 +2,7 @@ import json
 
 from dotenv import load_dotenv
 
-from Configs.database_config import get_database_connection
+from Configs.database import get_database_connection
 
 load_dotenv()
 

@@ -1,0 +1,7 @@
+{
+    "//":"change this config to the '.env'",
+    "host":"localhost",
+    "user":"root",
+    "password":"",
+    "database":"leadgenpy"
+}

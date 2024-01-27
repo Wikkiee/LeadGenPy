@@ -6,7 +6,7 @@ import time
 import traceback
 from email.message import EmailMessage
 from ChatGPT.content_generator import generate
-from Configs.database_config import get_database_connection
+from Configs.database import get_database_connection
 from Utils.store import get_all_data_from_database, get_details_for_emails
 
 
