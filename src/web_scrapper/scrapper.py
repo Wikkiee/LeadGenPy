@@ -329,7 +329,7 @@ def get_data_from_google_map(industry_name, location,limit=2,   taskBar=None,pro
             result.append(business_data)
 
             count += 1
-            if(progress): progress.update(taskBar,advance=count)
+            if(progress): progress.update(taskBar,advance=1)
 
         generate_json(result)
         driver.close()
