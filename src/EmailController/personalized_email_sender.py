@@ -5,8 +5,7 @@ import ssl
 import time
 import traceback
 from email.message import EmailMessage
-
-from ChatGPT.content_generator import EmailContentGenerator
+from ChatGPT.content_generator import generate
 from Configs.database_config import get_database_connection
 from Utils.store import get_all_data_from_database, get_details_for_emails
 
@@ -29,9 +28,8 @@ def personalized_email_content_generator():
                         "google_map_url"]
                 for key in keys:
                     data_to_feed_chatgpt[key] = business_data[keys.index(key) + 1]
-                email_content_generator = EmailContentGenerator()
                 print("Generating content")
-                personalized_email_content = email_content_generator.generate(data_to_feed_chatgpt)
+                personalized_email_content = generate(data_to_feed_chatgpt)
                 personalized_email_subject = personalized_email_content[0].replace("'", "\\'")
                 personalized_email_content = personalized_email_content[1].replace("'", "\\'")
 
