@@ -6,3 +6,4 @@ openai==0.28.0
 lxml
 mysql-connector-python
 pytest
+rich

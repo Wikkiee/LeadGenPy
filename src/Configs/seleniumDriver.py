@@ -1,7 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-import os, config
 
+import os
+import Configs.config as config
+
+Driver = None
 def __initialize():
     chrome_options = webdriver.ChromeOptions()
 
@@ -13,8 +16,7 @@ def __initialize():
 
     return webdriver.Chrome( service=Service(os.path.join(os.getcwd(),config.SELENIUM_CONFIG["chromeDriverPath"])), chrome_options=chrome_options)
 
-Driver = __initialize()
-
 if __name__ == "__main__":
-    driver = __initialize()
-    print("driver:",driver)
+    Driver = __initialize()
+    print("driver:",Driver)
+else: Driver = __initialize()

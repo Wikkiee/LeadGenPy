@@ -288,12 +288,11 @@ def get_business_details(home_page_soup):
         return {}
 
 
-def get_data_from_google_map(industry_name, location):
+def get_data_from_google_map(industry_name, location,limit=2,   taskBar=None,progress=None):
 
     try:
         query = f'{industry_name} in {location}' if industry_name and location else f'{industry_name} {location}'
-        driver.get(
-            f'https://www.google.com/maps/search/{query}')
+        driver.get(f'https://www.google.com/maps/search/{query}')
         scrollable_table = driver.find_element(
             By.CSS_SELECTOR,
             "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd")
@@ -318,8 +317,7 @@ def get_data_from_google_map(industry_name, location):
         count = 0
 
         for link in links:
-            if count == 2:
-                break
+            if count == limit: break
             driver.get(link)
 
             home_page_source = driver.page_source
@@ -331,10 +329,12 @@ def get_data_from_google_map(industry_name, location):
             result.append(business_data)
 
             count += 1
+            if(progress): progress.update(taskBar,advance=count)
 
         generate_json(result)
         driver.close()
         return result[0]
+
     except Exception as error:
         traceback.print_exc()
         print(error)

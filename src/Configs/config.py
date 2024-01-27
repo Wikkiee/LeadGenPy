@@ -15,4 +15,4 @@ def initialize():
 if __name__ == "__main__":
     initialize()
     print(SELENIUM_CONFIG,CHATGPT_CONFIG,DATABASE_CONFIG, sep = '\n')
-else:initialize()
+else: initialize()
