@@ -1,6 +1,6 @@
 import json
 import datetime
-from ..Configs.database_config import get_database_connection
+from Configs.database_config import get_database_connection
 from dotenv import load_dotenv
 
 

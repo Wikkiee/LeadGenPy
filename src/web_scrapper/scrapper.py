@@ -3,11 +3,11 @@ import re
 import traceback
 import requests
 from bs4 import BeautifulSoup
-from ..Configs.selenium_config import driver
+from Configs.selenium_config import driver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from ..Configs.database_config import get_database_connection
-from ..Utils.store import Store
+from Configs.database_config import get_database_connection
+from Utils.store import Store
 
 
 def get_organization_number():

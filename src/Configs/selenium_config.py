@@ -1,9 +1,5 @@
 from selenium import webdriver
-from beaupy import select,prompt
-from rich.console import Console
-import time
-from beaupy.spinners import *
-
+from selenium.webdriver.chrome.service import Service
 
 
 
@@ -32,6 +28,5 @@ def __initialize():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-infobars")
 
-    return webdriver.Chrome(
-    '../assets/chromedriver.exe', chrome_options=chrome_options)
+    return webdriver.Chrome(service=Service('../assets/chromedriver.exe'), chrome_options=chrome_options)
 driver = __initialize()
