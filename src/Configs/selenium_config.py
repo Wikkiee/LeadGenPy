@@ -31,7 +31,7 @@ def __initialize():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-infobars")
 
-    return webdriver.Chrome( service=Service(os.path.join(os.getcwd(),'assets\\chromedriver.exe')), chrome_options=chrome_options)
+    return webdriver.Chrome( service=Service(os.path.join(os.getcwd(),'..\\assets\\chromedriver.exe')), chrome_options=chrome_options)
 
 
 driver = __initialize()
