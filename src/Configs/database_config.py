@@ -1,6 +1,7 @@
 import traceback
 import mysql.connector
 
+
 def get_database_connection():
     try:
         connection = mysql.connector.connect(
@@ -89,4 +90,3 @@ def get_database_connection():
     except Exception as error:
         traceback.print_exc()
         print(error)
-        

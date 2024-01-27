@@ -5,9 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 from Configs.selenium_config import driver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from Configs.database_config import get_database_connection
-from Utils.store import Store
+from Utils.store import generate_json
 
 
 def get_organization_number():
@@ -294,7 +293,6 @@ def get_business_details(home_page_soup):
 def get_data_from_google_map(industry_name, location):
 
     try:
-        store = Store()
         query = f'{industry_name} in {location}' if industry_name and location else f'{industry_name} {location}'
         driver.get(
             f'https://www.google.com/maps/search/{query}')
@@ -336,7 +334,7 @@ def get_data_from_google_map(industry_name, location):
 
             count += 1
 
-        store.generate_json(result)
+        generate_json(result)
         driver.close()
         return result[0]
     except Exception as error:
