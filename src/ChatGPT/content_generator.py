@@ -1,7 +1,10 @@
 import openai
 import re
 import traceback
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generate(client_data):
     try:
