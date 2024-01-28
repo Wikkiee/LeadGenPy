@@ -1,29 +1,36 @@
 import json
+import traceback
 
 from dotenv import load_dotenv
-
+from rich import print_json
 from Configs.database import get_database_connection
 
 load_dotenv()
 
 
-def insert_all_data_into_database():
+def insert_all_data_into_database( console=None ):
     try:
         with open("../assets/data.json", 'r') as json_file:
             data_to_insert = json.loads(json_file.read())
+
             connection = get_database_connection()
             cursor = connection.cursor()
-            for item in data_to_insert:
+
+            inserted = 0
+            for item in  data_to_insert:
                 columns = ', '.join(item.keys())
                 values = ', '.join(["%s"] * len(item))
                 insert_query = f"INSERT INTO leads ({columns}) VALUES ({values})"
 
-                cursor.execute(insert_query, list(item.values()))
-                if cursor.rowcount == 1:
-                    print("Data inserted successfully")
-                else:
-                    print("Failed to insert data")
-                    return False
+                try:
+                    cursor.execute(insert_query, list(item.values()))
+                    if cursor.rowcount == 1:
+                        inserted += 1
+                        console.print(f"[green]✅ [bold]{item['business_name']}[reset] [green]Data inserted successfully [yellow]({inserted}/{len(data_to_insert)})")
+                except Exception as err:
+                        console.print(f"[red]❌ [bold]{item['business_name']}[reset] [red]Data insertion Failed! [yellow]({inserted}/{len(data_to_insert)})")
+                        continue
+
             cursor.close()
             connection.commit()
             connection.close()
@@ -31,6 +38,7 @@ def insert_all_data_into_database():
             return True
     except Exception as error:
         print(error)
+        traceback.print_exc()
 
 
 def get_all_data_from_database():
@@ -49,7 +57,7 @@ def get_details_for_emails():
         connection = get_database_connection()
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT id,business_email,personalized_email_subject,personalized_email_content,status FROM leads")
+            "SELECT lead_id,business_email,personalized_email_subject,personalized_email_content,status,business_name FROM leads")
         result = cursor.fetchall()
         return result
     except Exception as error:
@@ -69,7 +77,7 @@ def get_all_data_from_json_file():
     try:
         with open("../assets/data.json", 'r') as json_file:
             data = json.loads(json_file.read())
-            print(json.dumps(data, indent=4))
+            print_json(json.dumps(data, indent=4))
     except Exception as error:
         print(error)
 

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def generate(client_data):
+def get_personalized_email_content_using_chatgpt(client_data):
     try:
         messages = [
             {"role": "system", "content": "You are a helpful assistant."},

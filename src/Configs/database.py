@@ -1,5 +1,10 @@
+import traceback
+
 import mysql.connector
-import  Configs.config as config
+import Configs.config as config
+
+def is_database_connected():
+    return get_database_connection() != None
 
 def get_database_connection():
     try:
@@ -9,10 +14,6 @@ def get_database_connection():
             password=config.DATABASE_CONFIG["password"],
             database=config.DATABASE_CONFIG["database"]
         )
-        
-        if not connection.is_connected():
-            print("Failed to connect to MySQL")
-            return None
         
         cursor = connection.cursor()
         cursor.execute("""
@@ -83,9 +84,9 @@ def get_database_connection():
         connection.commit()
         return connection
       
-    except mysql.connector.errors.DatabaseError as error:
-        # traceback.print_exc()
+    except Exception as error:
         print(error)
+
 
 if __name__ == "__main__":
     print( get_database_connection() )
