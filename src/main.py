@@ -2,16 +2,14 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.prompt import Prompt
 from rich.progress import Progress
+from web_scrapper.scrapper import Scrapper
+from selenium import webdriver
 
-import time
 
-
-def processInput(userInput):
+def processInput(userInput, scrapper:Scrapper):
     console = Console(width=55)
 
     if(userInput == 1):
-        from web_scrapper.scrapper import get_data_from_google_map
-
         console.clear()
         console.print("[bold green underline]LeadGenPy[reset][cyan bold]/[reset][yellow]ExtractDatabase",justify="center")
         console.print(Markdown("---"))
@@ -21,9 +19,26 @@ def processInput(userInput):
         limit = int( Prompt.ask("Set Limit", default="2") )
 
         console.print(Markdown("---"))
+            
+        driver:webdriver.Chrome = scrapper.getDriver()
+        driver:webdriver.Chrome = scrapper.createDriver() if driver==None else driver
+
         with Progress() as progress:
             taskBar = progress.add_task("",total=limit)
-            result = get_data_from_google_map(business_name,location,limit, taskBar=taskBar,progress=progress)
+            result = scrapper.getDataFromGoogleMap(business_name,location,limit, taskBar=taskBar,progress=progress)
+            console.print(result)
+            driver.close()
+        
+        return True
+
+    if(userInput == 2):
+        return True
+
+    if(userInput == 3):
+        return True
+
+    if(userInput == 4):
+        return True
 
     if(userInput == 5):
         console.clear()
@@ -40,10 +55,11 @@ def processInput(userInput):
 
 def main():
     console = Console(width=35)
+    scrapper = Scrapper()
     userInput = -1
 
     while(userInput != 5):
-        console.clear()
+        # console.clear()
         console.print("[bold green underline]LeadGenPy[reset] [cyan bold][Automation]",justify="center")
         console.print(Markdown("---"))
         console.print("1] Extract Dataset",justify="left")
@@ -58,7 +74,7 @@ def main():
             try:userInput = int( input() )
             except Exception as err:userInput = -1
         
-        processInput(userInput)
+        processInput(userInput, scrapper)
 
 if __name__ == "__main__":
     main()

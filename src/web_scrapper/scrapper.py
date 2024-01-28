@@ -3,10 +3,176 @@ import re
 import traceback
 import requests
 from bs4 import BeautifulSoup
-from Configs.seleniumDriver import Driver as driver
 from selenium.webdriver.common.by import By
 from Configs.database import get_database_connection
 from Utils.store import generate_json
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+import os
+import Configs.config as config
+
+class Scrapper:
+
+    def __init__(self) -> None:
+        self.__Driver:webdriver.Chrome = None
+
+    def isDriverReady(self):return self.__Driver != None
+    def getDriver(self):return self.__Driver
+    def closeDriver(self): self.__Driver.close()
+
+    def createDriver(self) -> webdriver.Chrome:
+        chrome_options = webdriver.ChromeOptions()
+
+        prefs = {'profile.default_content_setting_values': config.SELENIUM_CONFIG["profile.default_content_setting_values"]}
+        chrome_options.add_experimental_option('prefs', prefs)
+
+        for argument in config.SELENIUM_CONFIG["arguments"]:
+            chrome_options.add_argument(argument)
+
+        self.__Driver = webdriver.Chrome( service=Service(os.path.join(os.getcwd(),config.SELENIUM_CONFIG["chromeDriverPath"])), chrome_options=chrome_options)
+        return self.__Driver
+
+    def getDataFromGoogleMap(self, industryName, location, limit=2,   taskBar=None,progress=None):
+        query = f'{industryName} in {location}' if industryName and location else f'{industryName} {location}'
+        try:
+            self.__Driver.get(f'https://www.google.com/maps/search/{query}')
+            self.__Driver.find_element(By.CSS_SELECTOR,
+                "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd"
+            )
+
+            soup = BeautifulSoup(self.__Driver.page_source, 'lxml')
+            res = soup.select(
+                "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div:not(.TFQHme):not(.m6QErb) > div > a"
+            )
+
+            links = [link.attrs['href'] for link in res]
+        except Exception as error:
+            traceback.print_exc()
+            print(error)
+            return None
+
+        count = 0
+        result = []
+
+        for link in links:
+            if count == limit:
+                break
+
+            try:
+                self.__Driver.get(link)
+
+                homePageSource = self.__Driver.page_source
+                homePageSoup:BeautifulSoup = BeautifulSoup(homePageSource, 'lxml')
+
+                businessData = self.__getBusinessDetails(homePageSoup)
+                businessData["google_map_url"] = link
+
+                result.append(businessData)
+            except Exception as error:
+                traceback.print_exc()
+                print(error)
+                return None
+
+            count += 1
+            if(progress):
+                progress.update(taskBar,advance=1)
+
+        generate_json(result)
+        return result
+
+    def __getBusinessDetails(self, homePageSoup:BeautifulSoup):
+        business_data = {
+            "business_name": "null",
+            "business_address": "null",
+            "business_email": "null",
+            "mobile_number": "null",
+            "website_url": "null",
+            "business_category": "null",
+            "ratings": "null",
+            "review_counts": "null",
+            "top_review_1": "null",
+            "top_review_2": "null",
+            "top_review_3": "null",
+            "google_map_url": "null",
+            "personalized_email_subject": "null",
+            "personalized_email_content": "null",
+            "status": "PENDING",
+        }
+        base_selector = 9
+
+        try:
+            for i in range(7, 10):
+                if len( homePageSoup.select(f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({i}) > div') ) > 1:
+                    base_selector = i
+                    break
+
+            length = homePageSoup.select(f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div')
+            name_selector = homePageSoup.select("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div:nth-child(1) > h1")
+            category_selector = homePageSoup.select("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div:nth-child(2) > span > span > button")
+            ratings_selector = homePageSoup.select("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div.fontBodyMedium.dmRWX > div.F7nice > span:nth-child(1) > span:nth-child(1)")
+            reviews_selector = homePageSoup.select("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div.fontBodyMedium.dmRWX > div.F7nice > span:nth-child(2) > span > span")
+            business_data["business_name"] = name_selector[0].text if name_selector else "null"
+
+            for i in range(3, len(length)):
+                if homePageSoup.select(
+                    f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img') or homePageSoup.select(f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div.cXHGnc > div > img'):
+                    src_link = homePageSoup.select(
+                        f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img')[
+                        0].attrs['src'] if homePageSoup.select(
+                            f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img') else \
+                            homePageSoup.select(
+                                f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div.cXHGnc > div > img')[
+                            0].attrs['src']
+                    if src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/place_gm_blue_24dp.png":
+
+                        business_data["business_address"] = homePageSoup.select(
+                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
+                            0].text if homePageSoup.select(
+                                f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
+                                                            homePageSoup.select(
+                                                                f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
+                                0].text
+                    elif src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/public_gm_blue_24dp.png":
+
+                        business_data["website_url"] = homePageSoup.select(
+                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
+                            0].text if homePageSoup.select(
+                                f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
+                                                    homePageSoup.select(
+                                                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
+                                0].text
+                    elif src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/phone_gm_blue_24dp.png":
+
+                        business_data["mobile_number"] = homePageSoup.select(
+                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
+                            0].text if homePageSoup.select(
+                                f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
+                                                        homePageSoup.select(
+                                                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
+                                0].text
+
+            business_data["business_category"] = category_selector[0].text if category_selector else "null"
+            business_data["ratings"] = ratings_selector[0].text if ratings_selector else "null"
+            business_data["review_counts"] = reviews_selector[0].text[1:-1] if reviews_selector else "null"
+
+            count = 1
+            for i in range(30, 60):
+                if count > 3:
+                    break
+                reviewer_name = homePageSoup.select(f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div > div > div:nth-child(2) > div > button > div")
+                review_content = homePageSoup.select(f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span ")
+                
+                if len(reviewer_name) > 0:
+                    business_data[f"top_review_{count}"] = f"Review by {reviewer_name[0].text} \n{review_content[0].text}"
+                    count = count + 1
+
+            return business_data
+        except Exception as error:
+            print(error)
+            traceback.print_exc()
+            return {}
 
 
 def get_organization_number():
@@ -184,157 +350,9 @@ def get_allabolag_details():
     print("Completed")
 
 
-def get_business_details(home_page_soup):
-    try:
-        business_data = {
-            "business_name": "null",
-            "business_address": "null",
-            "business_email": "null",
-            "mobile_number": "null",
-            "website_url": "null",
-            "business_category": "null",
-            "ratings": "null",
-            "review_counts": "null",
-            "top_review_1": "null",
-            "top_review_2": "null",
-            "top_review_3": "null",
-            "google_map_url": "null",
-            "personalized_email_subject": "null",
-            "personalized_email_content": "null",
-            "status": "PENDING",
 
-        }
-        base_selector = 9
+if __name__ == "__main__":
+    scrapper = Scrapper()
+    scrapper.createDriver()
+    print( scrapper.getDataFromGoogleMap("restaurants", "india", 2) )
 
-        for i in range(7, 10):
-            if len(home_page_soup.select(
-                    f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({i}) > div')) > 1:
-                base_selector = i
-                break
-
-        length = home_page_soup.select(
-            f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div')
-        name_selector = home_page_soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div:nth-child(1) > h1")
-        category_selector = home_page_soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div:nth-child(2) > span > span > button")
-        ratings_selector = home_page_soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div.fontBodyMedium.dmRWX > div.F7nice > span:nth-child(1) > span:nth-child(1)")
-        reviews_selector = home_page_soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.TIHn2 > div > div.lMbq3e > div.LBgpqf > div > div.fontBodyMedium.dmRWX > div.F7nice > span:nth-child(2) > span > span")
-
-        business_data["business_name"] = name_selector[0].text if name_selector else "null"
-
-        for i in range(3, len(length)):
-            if home_page_soup.select(
-                    f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img') or home_page_soup.select(f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div.cXHGnc > div > img'):
-                src_link = home_page_soup.select(
-                    f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img')[
-                    0].attrs['src'] if home_page_soup.select(
-                    f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div.cXHGnc > div > img') else \
-                    home_page_soup.select(
-                        f'#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div.cXHGnc > div > img')[
-                        0].attrs['src']
-                if src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/place_gm_blue_24dp.png":
-
-                    business_data["business_address"] = home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
-                        0].text if home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
-                        home_page_soup.select(
-                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
-                            0].text
-                elif src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/public_gm_blue_24dp.png":
-
-                    business_data["website_url"] = home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
-                        0].text if home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
-                        home_page_soup.select(
-                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
-                            0].text
-                elif src_link == "//www.gstatic.com/images/icons/material/system_gm/2x/phone_gm_blue_24dp.png":
-
-                    business_data["mobile_number"] = home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2) > div")[
-                        0].text if home_page_soup.select(
-                        f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > button > div > div:nth-child(2)") else \
-                        home_page_soup.select(
-                            f"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div:nth-child({base_selector}) > div:nth-child({i}) > a > div > div:nth-child(2) > div")[
-                            0].text
-
-        business_data["business_category"] = category_selector[0].text if category_selector else "null"
-        business_data["ratings"] = ratings_selector[0].text if ratings_selector else "null"
-        business_data["review_counts"] = reviews_selector[0].text[1:-1] if reviews_selector else "null"
-
-        # Review page:
-        count = 1
-        for i in range(30, 60):
-            if count > 3:
-                break
-            reviewer_name = home_page_soup.select(
-                f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div > div > div:nth-child(2) > div > button > div")
-            review_content = home_page_soup.select(
-                f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span ")
-            if len(reviewer_name) > 0:
-                business_data[
-                    f"top_review_{count}"] = f"Review by {reviewer_name[0].text} \n{review_content[0].text}"
-                count = count + 1
-
-        return business_data
-    except Exception as error:
-        print(error)
-        traceback.print_exc()
-        return {}
-
-
-def get_data_from_google_map(industry_name, location,limit=2,   taskBar=None,progress=None):
-
-    try:
-        query = f'{industry_name} in {location}' if industry_name and location else f'{industry_name} {location}'
-        driver.get(f'https://www.google.com/maps/search/{query}')
-        scrollable_table = driver.find_element(
-            By.CSS_SELECTOR,
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd")
-        # while True:
-        #     scrollable_table.send_keys(Keys.END)  # MAX - 120 Items
-        #     if driver.find_elements(By.CSS_SELECTOR,
-        #                             "#QA0Szd > div > div > div.w6VYqd > div:nth-child(2) > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd.QjC7t > div.m6QErb.tLjsW.eKbjU > div > p > span > span"):
-        #         if driver.find_elements(
-        #                 By.CSS_SELECTOR,
-        #                 "#QA0Szd > div > div > div.w6VYqd > div:nth-child(2) > div > div.e07Vkf.kA9KIf > div > div > div.RiRi5e.Hk4XGb.Yt0HSb > div > button"):
-        #             driver.find_element(
-        #                 By.CSS_SELECTOR,
-        #                 "#QA0Szd > div > div > div.w6VYqd > div:nth-child(2) > div > div.e07Vkf.kA9KIf > div > div > div.RiRi5e.Hk4XGb.Yt0HSb > div > button").click()
-        #         break
-
-        soup = BeautifulSoup(driver.page_source, 'lxml')
-        res = soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div:not(.TFQHme):not(.m6QErb) > div > a")
-        links = [link.attrs['href'] for link in res]
-
-        result = []
-        count = 0
-
-        for link in links:
-            if count == limit: break
-            driver.get(link)
-
-            home_page_source = driver.page_source
-            home_page_soup = BeautifulSoup(home_page_source, 'lxml')
-
-            business_data = get_business_details(home_page_soup)
-            business_data["google_map_url"] = link
-
-            result.append(business_data)
-
-            count += 1
-            if(progress): progress.update(taskBar,advance=1)
-
-        generate_json(result)
-        driver.close()
-        return result[0]
-
-    except Exception as error:
-        traceback.print_exc()
-        print(error)
