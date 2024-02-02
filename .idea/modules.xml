@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Lead Generation.iml" filepath="$PROJECT_DIR$/.idea/Lead Generation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/LeadGenPy.iml" filepath="$PROJECT_DIR$/.idea/LeadGenPy.iml" />
     </modules>
   </component>
 </project>

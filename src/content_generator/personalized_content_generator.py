@@ -3,8 +3,10 @@ import re
 import traceback
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 def get_personalized_email_content_using_chatgpt(client_data):
     try:

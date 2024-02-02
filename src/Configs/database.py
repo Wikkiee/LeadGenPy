@@ -1,10 +1,11 @@
-import traceback
-
 import mysql.connector
+
 import Configs.config as config
 
+
 def is_database_connected():
-    return get_database_connection() != None
+    return get_database_connection() is not None
+
 
 def get_database_connection():
     try:
@@ -14,7 +15,7 @@ def get_database_connection():
             password=config.DATABASE_CONFIG["password"],
             database=config.DATABASE_CONFIG["database"]
         )
-        
+
         cursor = connection.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS leads (
@@ -49,7 +50,8 @@ def get_database_connection():
                 number_of_employees INT DEFAULT 0,
                 year_of_registeration VARCHAR(255) DEFAULT 'null',
                 PRIMARY KEY (allabolag_id),
-                FOREIGN KEY (lead_id) REFERENCES leads(lead_id)
+                FOREIGN KEY (allabolag_id) REFERENCES allabolag(allabolag_id)
+
             )
         """)
         cursor.execute("""
@@ -83,10 +85,10 @@ def get_database_connection():
 
         connection.commit()
         return connection
-      
+
     except Exception as error:
         print(error)
 
 
 if __name__ == "__main__":
-    print( get_database_connection() )
+    print(get_database_connection())
