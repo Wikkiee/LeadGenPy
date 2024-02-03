@@ -36,11 +36,11 @@ def insert_all_data_into_database(console=None, status=None):
                         inserted += 1
                         if console:
                             console.print(
-                                f"[green]✅ [bold]{item['business_name']}[reset] [green]Data inserted successfully [yellow]({inserted}/{len(data_to_insert)})")
+                                f"[green]🎉 [bold]{item['business_name']}[reset] [green]Data inserted successfully [yellow]({inserted}/{len(data_to_insert)})")
                 except Exception:
                     if console:
                         console.print(
-                            f"[red]❌ [bold]{item['business_name']}[reset] [red]Data insertion Failed! [yellow]({inserted}/{len(data_to_insert)})")
+                            f"[red]🚨 [bold]{item['business_name']}[reset] [red]Data insertion Failed! [yellow]({inserted}/{len(data_to_insert)})")
 
                 if status:
                     status.update(
@@ -156,12 +156,12 @@ def export_database_into_csv_dataset(console=None):
             fp.close()
             if console:
                 console.print(
-                    f"[green]✅ [bold]Leads Data[reset] [green] has been exported successfully")
+                    f"[green]🎉 [bold]Leads Data[reset] [green] has been exported successfully")
         except:
             traceback.print_exc()
             if console:
                 console.print(
-                    f"[red]❌ [bold]Leads Data[reset] [red]Table into CSV Generation is Failed !")
+                    f"[red]🚨 [bold]Leads Data[reset] [red]Table into CSV Generation is Failed !")
         result['time_taken'] = time.time() - result['time_taken']
         result["network_usage"] = get_network_usage() - result["network_usage"]
         return result

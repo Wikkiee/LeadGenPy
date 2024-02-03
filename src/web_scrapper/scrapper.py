@@ -1,8 +1,10 @@
+import asyncio
 import os
 import re
 import time
 import traceback
 
+import aiohttp
 import requests
 import selenium.common.exceptions
 from selenium import webdriver
@@ -32,8 +34,7 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
         if status:
             status.update("[bold yellow]Scrapping Data From The Google Map... [green](opening GoogleMap)")
         driver.get(f'https://www.google.com/maps/search/{query}')
-        scrollable_table = driver.find_element(By.CSS_SELECTOR,
-                                               "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd")
+        scrollable_table = driver.find_element(By.CSS_SELECTOR,"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd")
         loop_breaker = 0
 
         if status:
@@ -54,8 +55,7 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
                 break
 
         soup = BeautifulSoup(driver.page_source, 'lxml')
-        res = soup.select(
-            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div:not(.TFQHme):not(.m6QErb) > div > a")
+        res = soup.select("#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf > div > div > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div.m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd > div:not(.TFQHme):not(.m6QErb) > div > a")
 
         links = [link.attrs['href'] for link in res]
     except Exception as error:
@@ -75,7 +75,8 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
 
         try:
             driver.get(link)
-
+            t = driver.find_element(By.CSS_SELECTOR,"#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
+            t.send_keys(Keys.PAGE_DOWN)
             home_page_source = driver.page_source
             home_page_soup: BeautifulSoup = BeautifulSoup(home_page_source, 'lxml')
 
@@ -201,12 +202,23 @@ def get_business_details(home_page_soup: BeautifulSoup, driver: webdriver.Chrome
 
             if len(reviewer_name) > 0:
                 try:
+
                     try:
-                        load_full_review_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span  > button")))
-                        load_full_review_button.click()
-                        home_page_soup = BeautifulSoup(driver.page_source,'lxml')
-                    except:
-                        print("Error 1")
+                        try:
+                            load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR,f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
+                            load_full_review_button.click()
+                            home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
+                        except:
+                            t = driver.find_element(By.CSS_SELECTOR,
+                                                    "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
+                            t.send_keys(Keys.PAGE_DOWN)
+                            load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((
+                                                                                                                By.CSS_SELECTOR,
+                                                                                                                f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
+                            load_full_review_button.click()
+                            home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
+                    except Exception as e:
+                        print(f"{reviewer_name} - More not found")
 
                     review_content = home_page_soup.select(f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span ")
                     business_data[f"top_review_{top_three_review_loop_break_index}"] = f"Review by {reviewer_name[0].text} \n{review_content[0].text}"
@@ -220,6 +232,98 @@ def get_business_details(home_page_soup: BeautifulSoup, driver: webdriver.Chrome
         print(error)
 
         return business_data
+
+
+
+async def scrape_business_email(console=None, status=None):
+    result = {"status": True, "error": None, "time_taken": time.time(), "network_usage": get_network_usage()}
+
+    try:
+        connections = get_database_connection()
+        cursor = connections.cursor()
+        cursor.execute(
+            "SELECT lead_id,business_name,website_url from leads WHERE website_url != 'null' AND business_email = 'null'  ")
+        web_url_list = cursor.fetchall()
+
+        email_scrape_set = {'items_found':0,'total_searched_items':0}
+        async def scrape_email_asynchronously(session,url,lead_id,business_name):
+            console.print(f'[yellow]🌐 Sending request to {url} -[reset] [blue][bold][{business_name}]')
+            email_scrape_set['total_searched_items'] += 1
+            try:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36'
+                    , 'Accept-Language': 'en-US,en;q=0.9'
+                }
+                async with session.get(url=f'https://{url}',headers=headers,ssl=False) as response:
+
+                    if response.status != 200:
+                        print(f"FAILED 404 -> {url}")
+                        return
+                    text =  await response.text()
+
+                    soup = BeautifulSoup(text, 'lxml')
+                    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+                    emails = re.findall(email_pattern, soup.text)
+                    if emails:
+                        email_scrape_set['items_found'] += 1
+                        _result = re.sub(r'\d', '', emails[0])
+                        cursor.execute("""
+                            UPDATE leads
+                            SET business_email = %s
+                            WHERE lead_id = %s
+                        """, (_result, lead_id))
+                        if console:
+                            console.print(
+                                f"[green]🎉 [bold]{business_name}[reset] [green]Email Scraped successfully [bold]{_result}[reset] [yellow] -> Found:{email_scrape_set['items_found']}")
+                            return
+                    else:
+                        if console:
+                            console.print(f"[red]🚨 [bold]{business_name}[reset] [red]Email Not Found! -> {url}")
+                            return
+            except Exception as connection_error:
+                if console:
+                    console.print(f"[red]🚨 [bold]{business_name}[reset] [red]Failed to scrape email - Error: {connection_error}! -> {url}")
+                    return
+
+        tasks = []
+
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=120),trust_env=True) as session:
+            for index,item in enumerate(web_url_list):
+                lead_id, business_name, url = item
+                try:
+                    task = asyncio.create_task(scrape_email_asynchronously(session,url,lead_id,business_name))
+                    tasks.append(task)
+                except Exception as err:
+                    print("for loop error")
+                    print(err)
+
+            await asyncio.gather(*tasks)
+        cursor.execute("SELECT COUNT(lead_id) as result FROM leads")
+        web_url_not_found_list = cursor.fetchall()
+        print()
+        console.print(f"[blue]🗃️ Total Emails Found : {email_scrape_set['items_found']} | Items searched : {email_scrape_set['total_searched_items']} | Ignored Items (Check DB) : {web_url_not_found_list[0][0] - email_scrape_set['total_searched_items']}")
+        if status:
+                status.update(
+                    f"[bold yellow]Scrapping Business Email... [green]({index+1}/{len(web_url_list)}) done:{email_found}")
+
+        connections.commit()
+        cursor.close()
+        connections.close()
+
+        result['time_taken'] = time.time() - result['time_taken']
+        result["network_usage"] = get_network_usage() - result["network_usage"]
+        return result
+    except Exception as error:
+        traceback.print_exc()
+        print(error)
+
+        result['time_taken'] = time.time() - result['time_taken']
+        result["network_usage"] = get_network_usage() - result["network_usage"]
+        return result
+
+
+
+
 
 
 def scrape_organization_number(console=None, status=None):
@@ -247,7 +351,7 @@ def scrape_organization_number(console=None, status=None):
             org_found += 1
             if console:
                 console.print(
-                    f"[green]✅ [bold]{business_name}[reset] [green]Organization Number Found [bold]{org_number[0]}[reset] [yellow]({org_found}/{len(url_list)})")
+                    f"[green]🎉 [bold]{business_name}[reset] [green]Organization Number Found [bold]{org_number[0]}[reset] [yellow]({org_found}/{len(url_list)})")
             if status:
                 status.update(f"[bold yellow]Scrapping Organization Number... [green]({index+1}\{len(url_list)}) done:{org_found}")
             cursor.execute(f"""
@@ -274,7 +378,7 @@ def scrape_organization_number(console=None, status=None):
                 org_found += 1
                 if console:
                     console.print(
-                        f"[green]✅ [bold]{business_name}[reset] [green]Organization Number Found [bold]{org_number[0]}[reset] [yellow]({org_found}/{len(url_list)})")
+                        f"[green]🎉 [bold]{business_name}[reset] [green]Organization Number Found [bold]{org_number[0]}[reset] [yellow]({org_found}/{len(url_list)})")
                 if status:
                     status.update(
                         f"[bold yellow]Scrapping Organization Number... [green]({index}\{len(url_list)}) done:{org_found}")
@@ -287,7 +391,7 @@ def scrape_organization_number(console=None, status=None):
         else:
             if console:
                 console.print(
-                    f"[red]❌ [bold]{business_name}[reset] [red]Organization Number Not Found! [yellow]({org_found}/{len(url_list)})")
+                    f"[red]🚨 [bold]{business_name}[reset] [red]Organization Number Not Found! [yellow]({org_found}/{len(url_list)})")
 
         if status:
             status.update(
@@ -301,59 +405,10 @@ def scrape_organization_number(console=None, status=None):
     return result
 
 
-def scrape_business_email(console=None, status=None):
-    result = {"status": True, "error": None, "time_taken": time.time(), "network_usage": get_network_usage()}
 
-    try:
-        connections = get_database_connection()
-        cursor = connections.cursor()
-        cursor.execute(
-            "SELECT lead_id,business_name,website_url from leads WHERE website_url != 'null' AND business_email = 'null'  ")
-        web_url_list = cursor.fetchall()
 
-        email_found = 0
-        for index,item in enumerate(web_url_list):
-            lead_id, business_name, url = item
 
-            # response = requests.get(url)
-            response = requests.get(f"https://{url}")
-            soup = BeautifulSoup(response.text, 'lxml')
-            email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-            emails = re.findall(email_pattern, soup.text)
-            if emails:
-                email_found += 1
-                _result = re.sub(r'\d', '', emails[0])
-                if console:
-                    console.print(
-                        f"[green]✅ [bold]{business_name}[reset] [green]Email Scraped successfully [bold]{_result}[reset] [yellow]({email_found}/{len(web_url_list)})")
-                cursor.execute("""
-                    UPDATE leads
-                    SET business_email = %s
-                    WHERE lead_id = %s
-                """, (_result, lead_id))
-            else:
-                if console:
-                    console.print(
-                        f"[red]❌ [bold]{business_name}[reset] [red]Email Not Found! [yellow]({email_found}/{len(web_url_list)})")
-            if status:
-                status.update(
-                    f"[bold yellow]Scrapping Business Email... [green]({index+1}/{len(web_url_list)}) done:{email_found}")
-
-        connections.commit()
-        cursor.close()
-        connections.close()
-
-        result['time_taken'] = time.time() - result['time_taken']
-        result["network_usage"] = get_network_usage() - result["network_usage"]
-        return result
-    except Exception as error:
-        traceback.print_exc()
-        print(error)
-
-        result['time_taken'] = time.time() - result['time_taken']
-        result["network_usage"] = get_network_usage() - result["network_usage"]
-        return result
-
+# Allabolag details scraper
 
 def scrape_allabolag_details(console=None, status=None):
     result = {"status": True, "error": None, "time_taken": time.time(), "network_usage": get_network_usage()}
@@ -457,7 +512,7 @@ def scrape_allabolag_details(console=None, status=None):
         index += 1
         if console:
             console.print(
-                f"[green]✅ [bold]{registered_name}[reset][green]'s  Allabolag Data Are Extracted Successfully!")
+                f"[green]🎉 [bold]{registered_name}[reset][green]'s  Allabolag Data Are Extracted Successfully!")
         if status:
             status.update(f"[bold yellow]Scrapping Allabolag Details... [green]({index+1}/{len(allabolag_data)}) done:{total_allabolag_found} | ")
             total_allabolag_found += 1

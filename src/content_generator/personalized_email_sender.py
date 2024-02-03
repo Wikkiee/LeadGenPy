@@ -36,12 +36,12 @@ def generatore_personalized_email_contents_with_status(business_data_list, curso
             personalized_email_content = personalized_email_content[1].replace("'", "\\'")
         except Exception:
             if console:
-                console.print(f"[red]❌ {data_to_feed_chatgpt['business_name']}'s Email Content Generation Failed!")
+                console.print(f"[red]🚨 {data_to_feed_chatgpt['business_name']}'s Email Content Generation Failed!")
             continue
         cursor.execute(
             f"""UPDATE leads SET personalized_email_subject = '{personalized_email_subject}' , personalized_email_content = '{personalized_email_content}' WHERE lead_id={item_id}""")
         if console:
-            console.print(f"[green]✅ {data_to_feed_chatgpt['business_name']}'s Email Content Generated")
+            console.print(f"[green]🎉 {data_to_feed_chatgpt['business_name']}'s Email Content Generated")
         connection.commit()
         count += 1
         time.sleep(3)
@@ -119,11 +119,11 @@ def send_personalized_emails(console=None, progress_status=None):
                     connection.commit()
                     if console:
                         console.print(
-                            f"[green]✅  Personalized Email Successfully Sent To {reciever_email} - [yellow]{business_name}")
+                            f"[green]🎉  Personalized Email Successfully Sent To {reciever_email} - [yellow]{business_name}")
                 else:
                     if console:
                         console.print(
-                            f"[red]❌  Personalized Email Faild To Sent To {reciever_email} - [yellow]{business_name}")
+                            f"[red]🚨  Personalized Email Faild To Sent To {reciever_email} - [yellow]{business_name}")
                 if progress_status:
                     progress_status.update(
                         f"[bold yellow]Sending Personalized Email... [green]({index + 1}\{len(data_list)}) done:{email_sent}")
