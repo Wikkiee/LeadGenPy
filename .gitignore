@@ -5,6 +5,7 @@ credentials.json
 *.ipynb
 chromedriver.exe
 venv
+experiments
 __pycache__/
 __init__.py
 .idea

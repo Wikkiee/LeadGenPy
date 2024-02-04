@@ -300,11 +300,10 @@ async def scrape_business_email(console=None, status=None):
             await asyncio.gather(*tasks)
         cursor.execute("SELECT COUNT(lead_id) as result FROM leads")
         web_url_not_found_list = cursor.fetchall()
-        print()
         console.print(f"[blue]🗃️ Total Emails Found : {email_scrape_set['items_found']} | Items searched : {email_scrape_set['total_searched_items']} | Ignored Items (Check DB) : {web_url_not_found_list[0][0] - email_scrape_set['total_searched_items']}")
         if status:
                 status.update(
-                    f"[bold yellow]Scrapping Business Email... [green]({index+1}/{len(web_url_list)}) done:{email_found}")
+                    f"[bold yellow]Scrapping Business Email... [green]({index+1}/{len(web_url_list)}) done:{email_scrape_set['items_found']}")
 
         connections.commit()
         cursor.close()
