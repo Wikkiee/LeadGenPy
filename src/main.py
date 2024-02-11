@@ -27,14 +27,15 @@ def process_input(user_input):
         limit = int(Prompt.ask("Set Limit", default="2"))
 
         console.print(Markdown("---"))
+        with console.status("[bold yellow]Scrapping Data From The Google Map... [green](opening chrome driver)") as status:
+            result = scrape_data_from_google_map(business_name, location, limit,status=status)
+        console.print(f"[green]🎉 Completed scrape_data_from_google_map! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
-        with Progress() as progress:
-            task_bar = progress.add_task("", total=limit)
-            result = scrape_data_from_google_map(business_name, location, limit, task_bar=task_bar, progress=progress,
-                                                 console=console)
-            progress.stop()
-            console.print(
-                f"[green]🎉 Completed scrape_data_from_google_map! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+        # with Progress() as progress:
+        #     task_bar = progress.add_task("", total=limit)
+        #     result = scrape_data_from_google_map(business_name, location, limit,console=console)
+        #     progress.stop()
+        #     console.print(f"[green]🎉 Completed scrape_data_from_google_map! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         return True
 
@@ -44,7 +45,7 @@ def process_input(user_input):
         console.print(Markdown("---"))
         result = get_all_data_from_json_file()
         console.print(
-            f"[green]🎉 Completed get_all_data_from_json_file! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed get_all_data_from_json_file! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -56,7 +57,7 @@ def process_input(user_input):
         console.print(Markdown("---"))
         result = insert_all_data_into_database(console=console)
         console.print(
-            f"[green]🎉 Completed insert_all_data_into_database! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed insert_all_data_into_database! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -74,12 +75,12 @@ def process_input(user_input):
         return True
 
     if user_input == 5:
-        console.width = 80
+        console.width = 100
         console.clear()
         console.print("[bold green underline]LeadGenPy[reset][cyan bold]/[reset][yellow]ScrapeOrgNumber", justify="center")
         console.print(Markdown("---"))
-        result = scrape_organization_number(console=console)
-        console.print(f"[green]🎉 Completed scrape_organization_number! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+        result = asyncio.run(scrape_organization_number(console=console))
+        console.print(f"[green]🎉 Completed scrape_organization_number! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
         console.print(Markdown("---"))
         os.system("pause")
         return True
@@ -90,9 +91,9 @@ def process_input(user_input):
         console.print("[bold green underline]LeadGenPy[reset][cyan bold]/[reset][yellow]ScrapeAllabolag",
                       justify="center")
         console.print(Markdown("---"))
-        result = scrape_allabolag_details(console=console)
+        result = asyncio.run(scrape_allabolag_details(console=console))
         console.print(
-            f"[green]🎉 Completed scrape_allabolag_details! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed scrape_allabolag_details! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -106,7 +107,7 @@ def process_input(user_input):
         console.print(Markdown("---"))
         result = generatore_personalized_email_contents(console=console)
         console.print(
-            f"[green]🎉 Completed generatore_personalized_email_contents! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed generatore_personalized_email_contents! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -120,7 +121,7 @@ def process_input(user_input):
         console.print(Markdown("---"))
         result = send_personalized_emails(console=console)
         console.print(
-            f"[green]🎉 Completed send_personalized_emails! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed send_personalized_emails! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -164,31 +165,31 @@ def process_input(user_input):
             total_result['time_taken'] += result['time_taken']
             total_result['network_usage'] += result['network_usage']
             console.print(
-                f"[green]🎉 Completed scrape_data_from_google_map! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                f"[green]🎉 Completed scrape_data_from_google_map! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
             status.update(f"[bold yellow]Inserting Data Into Database...")
             result = insert_all_data_into_database(status=status)
             total_result['time_taken'] += result['time_taken']
             total_result['network_usage'] += result['network_usage']
             console.print(
-                f"[green]🎉 Completed insert_all_data_into_database! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                f"[green]🎉 Completed insert_all_data_into_database! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
             status.update(f"[bold yellow]Scrapping Business Email...")
             result = scrape_business_email(status=status)
             total_result['time_taken'] += result['time_taken']
             total_result['network_usage'] += result['network_usage']
             console.print(
-                f"[green]🎉 Completed scrape_business_email! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                f"[green]🎉 Completed scrape_business_email! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
             status.update(f"[bold yellow]Scrapping Organization Number...")
             result = scrape_organization_number(status=status)
             total_result['time_taken'] += result['time_taken']
             total_result['network_usage'] += result['network_usage']
             console.print(
-                f"[green]🎉 Completed scrape_organization_number! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                f"[green]🎉 Completed scrape_organization_number! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
             status.update(f"[bold yellow]Scrapping Allabolag Details...")
             result = scrape_allabolag_details(status=status)
             total_result['time_taken'] += result['time_taken']
             total_result['network_usage'] += result['network_usage']
             console.print(
-                f"[green]🎉 Completed scrape_allabolag_details! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                f"[green]🎉 Completed scrape_allabolag_details! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
             status.update(f"[bold yellow]Generating Personalized Email...")
 
             if mode == 2 or mode == 3:
@@ -196,7 +197,7 @@ def process_input(user_input):
                 total_result['time_taken'] += result['time_taken']
                 total_result['network_usage'] += result['network_usage']
                 console.print(
-                    f"[green]🎉 Completed generate_personalized_email_contents! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                    f"[green]🎉 Completed generate_personalized_email_contents! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
             if mode == 3:
                 status.update(f"[bold yellow]Sending Personalized Email...")
@@ -204,11 +205,11 @@ def process_input(user_input):
                 total_result['time_taken'] += result['time_taken']
                 total_result['network_usage'] += result['network_usage']
                 console.print(
-                    f"[green]🎉 Completed send_personalized_emails! [yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+                    f"[green]🎉 Completed send_personalized_emails! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
             status.stop()
         console.print(
-            f"[green]🎉 Everything Is Completed Successfully!\n\n[bold green]Total Statistics:\n\t[reset]TimeTaken: [yellow]{total_result['time_taken']:.2f}[reset] sec\n\tNetworkUsage: [yellow]{(total_result['network_usage'] / 1000000):.3f}[reset] megabytes\n")
+            f"[green]🎉 Everything Is Completed Successfully!\n\n[bold green]Total Statistics:\n\t[reset]TimeTaken: [yellow]{total_result['time_taken']:.2f}[reset] sec\n\tNetwork Usage: [yellow]{(total_result['network_usage'] / 1000000):.3f}[reset] megabytes\n")
         console.print(Markdown("---"))
         os.system("pause")
         return True
@@ -221,7 +222,7 @@ def process_input(user_input):
         console.print(Markdown("---"))
         result = export_database_into_csv_dataset(console=console)
         console.print(
-            f"[green]🎉 Completed export_database_into_csv_dataset ! \n[yellow]timeTaken:[reset]{result['time_taken']:.2f}sec [yellow]networkUsage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
+            f"[green]🎉 Completed export_database_into_csv_dataset ! \n\n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         console.print(Markdown("---"))
         os.system("pause")
@@ -261,7 +262,7 @@ def main():
         console.print("3] Save Into Database", justify="left")
         console.print("4] Scrape Email From Site", justify="left")
         console.print("5] Scrape Organization Number", justify="left")
-        console.print("6] Scrape Allabolag Number", justify="left")
+        console.print("6] Scrape Allabolag Details", justify="left")
         console.print("7] Generate Personalized EmailContent", justify="left")
         console.print("8] Send Personalized Email", justify="left")
         console.print("9] [bold]Production Mode", justify="left")

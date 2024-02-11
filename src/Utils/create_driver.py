@@ -16,5 +16,5 @@ def createDriver() -> webdriver.Chrome:
     for argument in config.SELENIUM_CONFIG["arguments"]:
         chrome_options.add_argument(argument)
 
-    driver = webdriver.Chrome(service=Service(os.path.join(os.getcwd(), config.SELENIUM_CONFIG["chromeDriverPath"])), chrome_options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
     return driver

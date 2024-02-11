@@ -13,25 +13,27 @@ def get_database_connection():
             host=config.DATABASE_CONFIG["host"],
             user=config.DATABASE_CONFIG["user"],
             password=config.DATABASE_CONFIG["password"],
-            database=config.DATABASE_CONFIG["database"]
+		port=6969
         )
 
         cursor = connection.cursor()
+        cursor.execute("CREATE DATABASE IF NOT EXISTS leadgenpy")
+        cursor.execute("use leadgenpy")
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS leads (
                 lead_id INT NOT NULL AUTO_INCREMENT,
                 business_name VARCHAR(255) NOT NULL,
                 business_address VARCHAR(255),
                 business_email VARCHAR(255),
-                mobile_number VARCHAR(15),
+                mobile_number VARCHAR(20),
                 website_url VARCHAR(255),
                 business_category VARCHAR(50),
                 ratings VARCHAR(4),
-                review_counts int,
-                top_review_1 VARCHAR(1000),
-                top_review_2 VARCHAR(1000),
-                top_review_3 VARCHAR(1000), 
-                google_map_url VARCHAR(255),
+                review_counts VARCHAR(20),
+                top_review_1 VARCHAR(3000),
+                top_review_2 VARCHAR(3000),
+                top_review_3 VARCHAR(3000), 
+                google_map_url VARCHAR(350),
                 personalized_email_subject VARCHAR(255),
                 personalized_email_content VARCHAR(5000),
                 status VARCHAR(8),
@@ -50,7 +52,7 @@ def get_database_connection():
                 number_of_employees INT DEFAULT 0,
                 year_of_registeration VARCHAR(255) DEFAULT 'null',
                 PRIMARY KEY (allabolag_id),
-                FOREIGN KEY (allabolag_id) REFERENCES allabolag(allabolag_id)
+                FOREIGN KEY (lead_id) REFERENCES leads(lead_id)
 
             )
         """)

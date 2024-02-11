@@ -29,7 +29,6 @@ def insert_all_data_into_database(console=None, status=None):
                 columns = ', '.join(item.keys())
                 values = ', '.join(["%s"] * len(item))
                 insert_query = f"INSERT INTO leads ({columns}) VALUES ({values})"
-
                 try:
                     cursor.execute(insert_query, list(item.values()))
                     if cursor.rowcount == 1:
@@ -37,7 +36,8 @@ def insert_all_data_into_database(console=None, status=None):
                         if console:
                             console.print(
                                 f"[green]🎉 [bold]{item['business_name']}[reset] [green]Data inserted successfully [yellow]({inserted}/{len(data_to_insert)})")
-                except Exception:
+                except Exception as error:
+                    print(error)
                     if console:
                         console.print(
                             f"[red]🚨 [bold]{item['business_name']}[reset] [red]Data insertion Failed! [yellow]({inserted}/{len(data_to_insert)})")
@@ -81,7 +81,7 @@ def get_details_for_emails():
 def generate_json(data):
     try:
         with open('../assets/data.json', 'w+') as json_file:
-            json.dump(data, json_file)
+            json.dump(list(data), json_file)
             json_file.close()
     except Exception as error:
         print(error)
