@@ -10,3 +10,4 @@ __pycache__/
 __init__.py
 .idea
 .csv
+experiments/test.py

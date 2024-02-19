@@ -7,7 +7,7 @@ from itertools import cycle
 
 from dotenv import load_dotenv
 from rich import print_json
-from Configs.database import get_database_connection
+from configs.database import get_database_connection
 from Utils.resource_calculator import get_network_usage
 
 
@@ -82,7 +82,6 @@ def generate_json(data):
     try:
         with open('../assets/data.json', 'w+') as json_file:
             json.dump(list(data), json_file)
-            json_file.close()
     except Exception as error:
         print(error)
 

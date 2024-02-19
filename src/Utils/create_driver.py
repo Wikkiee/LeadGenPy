@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 import os
-import Configs.config as config
+import configs.config as config
 
 
 def createDriver() -> webdriver.Chrome:

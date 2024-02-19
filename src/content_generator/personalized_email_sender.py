@@ -5,7 +5,7 @@ import time
 import traceback
 from email.message import EmailMessage
 from rich.console import Console
-from Configs.database import get_database_connection
+from configs.database import get_database_connection
 from Utils.embed_content_generator import  generate_embedded_email_content
 from Utils.resource_calculator import get_network_usage
 from Utils.store import  get_details_for_emails

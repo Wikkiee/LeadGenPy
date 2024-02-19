@@ -1,6 +1,6 @@
 import mysql.connector
 
-import Configs.config as config
+import configs.config as config
 
 
 def is_database_connected():
@@ -12,8 +12,7 @@ def get_database_connection():
         connection = mysql.connector.connect(
             host=config.DATABASE_CONFIG["host"],
             user=config.DATABASE_CONFIG["user"],
-            password=config.DATABASE_CONFIG["password"],
-		port=6969
+            password=config.DATABASE_CONFIG["password"]
         )
 
         cursor = connection.cursor()

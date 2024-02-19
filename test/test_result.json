@@ -1,0 +1,86 @@
+[
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "25.081 secs",
+    "network_usage": "11054.07 kilobytes",
+    "total_no_of_data_scraped": 1,
+    "input_limits": 1,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 14:54:07"
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "23.642 secs",
+    "network_usage": "10325.73 kilobytes",
+    "total_no_of_data_scraped": 1,
+    "input_limits": 1,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 14:55:42"
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "25.098 secs",
+    "network_usage": "11858.33 kilobytes",
+    "total_no_of_data_scraped": 1,
+    "input_limits": 1,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 14:58:11"
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "19.788 secs",
+    "network_usage": "14621.91 kilobytes",
+    "total_no_of_data_scraped": 1,
+    "input_limits": 1,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 15:01:35",
+    "headless": true
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "50.662 secs",
+    "network_usage": "44736.38 kilobytes",
+    "total_no_of_data_scraped": 10,
+    "input_limits": 10,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 15:02:28",
+    "headless": true
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "159.645 secs",
+    "network_usage": "175512.96 kilobytes",
+    "total_no_of_data_scraped": 50,
+    "input_limits": 50,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 15:05:10",
+    "headless": true
+  },
+  {
+    "status": true,
+    "error": null,
+    "time_taken": "274.222 secs",
+    "network_usage": "333773.82 kilobytes",
+    "total_no_of_data_scraped": 100,
+    "input_limits": 100,
+    "no_of_processes": 4,
+    "time_stamp": "2024-02-12 15:09:46",
+    "headless": true
+  }
+]{
+  "status": true,
+  "error": null,
+  "time_taken": "77.919 secs",
+  "network_usage": "45998.64 kilobytes",
+  "total_no_of_data_scraped": 10,
+  "input_limits": 10,
+  "no_of_processes": 4,
+  "time_stamp": "2024-02-12 16:02:28",
+  "headless": true
+}{"status": false, "error": 

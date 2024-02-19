@@ -15,7 +15,8 @@ from rich.table import Table
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
-from Configs.database import get_database_connection
+from configs.config import APPLICATION_PROPERTIES
+from configs.database import get_database_connection
 from Utils.create_driver import createDriver
 from Utils.resource_calculator import get_network_usage
 from Utils.store import generate_json
@@ -27,26 +28,32 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def scrape_each_item_parallely(index,link,extracted_data_list,google_data_stats):
-    # options = webdriver.ChromeOptions()
-    # driver = webdriver.Remote(command_executor='http://localhost:4444', options=options)
-    driver = createDriver()
-    driver.get(link)
-    page_down_selection_element = driver.find_element(By.CSS_SELECTOR,
-                            "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
-    page_down_selection_element.send_keys(Keys.PAGE_DOWN)
-    home_page_source = driver.page_source
-    home_page_soup: BeautifulSoup = BeautifulSoup(home_page_source, 'lxml')
+    try:
+        driver = createDriver()
+        driver.get(link)
+        if APPLICATION_PROPERTIES['google_map_data_scraper']['scrape_top_review']:
+            page_down_selection_element = driver.find_element(By.CSS_SELECTOR,
+                                    "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
+            page_down_selection_element.send_keys(Keys.PAGE_DOWN)
+        home_page_source = driver.page_source
+        home_page_soup: BeautifulSoup = BeautifulSoup(home_page_source, 'lxml')
 
-    business_data = get_business_details(home_page_soup, driver)
-    business_data["google_map_url"] = link
+        business_data = get_business_details(home_page_soup, driver)
+        business_data["google_map_url"] = link
 
-    extracted_data_list.append(business_data)
-    with google_data_stats.get_lock():
-        google_data_stats.value += 1
-    driver.close()
-def scrape_data_from_google_map(industry_name="restaurant", location="sweden", limit=2, task_bar=None, progress=None,
-                                console=None, status=None):
-    result = {"status": True, "error": None, "time_taken": time.time(), "network_usage": get_network_usage()}
+        extracted_data_list.append(business_data)
+        with google_data_stats.get_lock():
+            google_data_stats.value += 1
+        driver.close()
+
+
+    except Exception as e:
+        print(e)
+
+
+
+def scrape_data_from_google_map(industry_name="restaurant", location="sweden", limit=2, task_bar=None, progress=None,console=None, status=None):
+    result = {"status": True, "error": None, "time_taken": time.time(), "network_usage": get_network_usage(),'total_no_of_data_scraped':0}
 
     query = f'{industry_name} in {location}' if industry_name and location else f'{industry_name} {location}'
     try:
@@ -61,7 +68,7 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
             status.update("[bold yellow]Scrapping Data From The Google Map... [green](Fetching Business In GoogleMap)")
         while True:
             if loop_breaker == 2:
-                break
+                pass
             loop_breaker += 1
             scrollable_table.send_keys(Keys.END)  # MAX - 120 Items
             if driver.find_elements(By.CSS_SELECTOR,
@@ -94,7 +101,8 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
 
     processes = []
     total_links = len(links)
-    print('Total No.Of Links:',total_links)
+    if console:
+        console.print(f"🗂️ [green]Total No.Of Links Extracted:[reset] [blue][bold]{total_links}")
     for index,link in enumerate(links):
         if index == limit:
             break
@@ -102,20 +110,15 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
 
             while len(processes) >= 4:
                     processes = [process for process in processes if process.is_alive()]
-
                     if (len(processes)>=4):
                         continue
                     break
-
             if status:
-                    status.update(f"[yellow]🚨 [bold]Scraping data from google map \n[green]Completed: [{index+1}] | Remaining: [{total_links - (index + 1)}]")
+                    status.update(f"[yellow][bold]Scraping data from google map \n⌛ [green]Completed: [{index+1}] | ⏳ Remaining: [{total_links - (index + 1)}]")
 
             process = multiprocessing.Process(target=scrape_each_item_parallely,args=(index,link,shared_extracted_data_list,google_data_stats))
             process.start()
-
             processes.append(process)
-
-
             # if status: status.update(f"[bold yellow]Scrapping Data From The Google Map... [green]({google_data_stats.value}/{len(links)}) done:{len(shared_extracted_data_list)}")
         except Exception as error:
             traceback.print_exc()
@@ -136,9 +139,10 @@ def scrape_data_from_google_map(industry_name="restaurant", location="sweden", l
         progress.stop()
     if console:
         console.print(
-            f"[green]Scraped [cyan bold]{len(shared_extracted_data_list)}[reset] [green]{industry_name} Data Successfully!\n")
+            f"📋 [green]Scraped [cyan bold]{len(shared_extracted_data_list)}[reset] [green]{industry_name} Data Successfully!\n")
     result['time_taken'] = time.time() - result['time_taken']
     result["network_usage"] = get_network_usage() - result["network_usage"]
+    result['total_no_of_data_scraped'] = len(shared_extracted_data_list)
     return result
 
 
@@ -224,39 +228,41 @@ def get_business_details(home_page_soup: BeautifulSoup, driver: webdriver.Chrome
         business_data["ratings"] = ratings_selector[0].text if ratings_selector else "null"
         business_data["review_counts"] = reviews_selector[0].text[1:-1] if reviews_selector else "null"
 
-        top_three_review_loop_break_index = 1
-        for i in range(30, 60):
-            if top_three_review_loop_break_index > 3:
-                break
 
-            reviewer_name = home_page_soup.select(
-                f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div > div > div:nth-child(2) > div > button > div")
+        if APPLICATION_PROPERTIES['google_map_data_scraper']['scrape_top_review'] == True:
+            top_three_review_loop_break_index = 1
+            for i in range(30, 60):
+                if top_three_review_loop_break_index > 3:
+                    break
 
-            if len(reviewer_name) > 0:
-                try:
+                reviewer_name = home_page_soup.select(
+                    f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div > div > div:nth-child(2) > div > button > div")
 
+                if len(reviewer_name) > 0:
                     try:
-                        try:
-                            load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR,f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
-                            load_full_review_button.click()
-                            home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
-                        except:
-                            t = driver.find_element(By.CSS_SELECTOR,
-                                                    "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
-                            t.send_keys(Keys.PAGE_DOWN)
-                            load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((
-                                                                                                                By.CSS_SELECTOR,
-                                                                                                                f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
-                            load_full_review_button.click()
-                            home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
-                    except Exception as e:
-                        print(f"{reviewer_name} - More not found")
 
-                    review_content = home_page_soup.select(f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span ")
-                    business_data[f"top_review_{top_three_review_loop_break_index}"] = f"Review by {reviewer_name[0].text} \n{review_content[0].text}"
-                    top_three_review_loop_break_index += 1
-                except selenium.common.exceptions.ElementNotInteractableException as error:
-                    print("Error - From scrapper.py")
+                        try:
+                            try:
+                                load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR,f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
+                                load_full_review_button.click()
+                                home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
+                            except:
+                                page_down_selection_element = driver.find_element(By.CSS_SELECTOR,
+                                                        "#QA0Szd > div > div > div.w6VYqd > div.bJzME.tTVLSc > div > div.e07Vkf.kA9KIf")
+                                page_down_selection_element.send_keys(Keys.PAGE_DOWN)
+                                load_full_review_button = WebDriverWait(driver, 1).until(EC.element_to_be_clickable((
+                                                                                                                    By.CSS_SELECTOR,
+                                                                                                                    f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span > button ")))
+                                load_full_review_button.click()
+                                home_page_soup = BeautifulSoup(driver.page_source, 'lxml')
+                        except Exception as e:
+                            print(f"{reviewer_name} - More not found")
+
+                        review_content = home_page_soup.select(f"#QA0Szd > div > div > div > div > div > div > div > div > div:nth-child({i}) > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div > span ")
+                        business_data[f"top_review_{top_three_review_loop_break_index}"] = f"Review by {reviewer_name[0].text} \n{review_content[0].text}"
+                        top_three_review_loop_break_index += 1
+                    except selenium.common.exceptions.ElementNotInteractableException as error:
+                        print("Error - From scrapper.py")
 
         return business_data
     except Exception as error:

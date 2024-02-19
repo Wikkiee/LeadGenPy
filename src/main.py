@@ -4,9 +4,10 @@ import requests
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.progress import Progress
+from beaupy import confirm, select
 from rich.prompt import Prompt
-
-from Configs.database import is_database_connected, get_database_connection
+from configs.config import update_configs
+from configs.database import is_database_connected, get_database_connection
 from Utils.store import get_all_data_from_json_file, insert_all_data_into_database, export_database_into_csv_dataset
 from content_generator.personalized_email_sender import generatore_personalized_email_contents, send_personalized_emails
 from web_scrapper.scrapper import scrape_data_from_google_map, scrape_business_email, scrape_organization_number, \
@@ -28,7 +29,7 @@ def process_input(user_input):
 
         console.print(Markdown("---"))
         with console.status("[bold yellow]Scrapping Data From The Google Map... [green](opening chrome driver)") as status:
-            result = scrape_data_from_google_map(business_name, location, limit,status=status)
+            result = scrape_data_from_google_map(business_name, location, limit,status=status,console=console)
         console.print(f"[green]🎉 Completed scrape_data_from_google_map! \n[yellow]Time Taken:[reset]{result['time_taken']:.2f}sec [yellow]Network Usage:[reset]{(result['network_usage'] / 1000):.2f}kilobytes")
 
         # with Progress() as progress:
@@ -228,6 +229,10 @@ def process_input(user_input):
         os.system("pause")
         return True
 
+    if user_input == 11:
+        console.clear()
+        update_configs(console,confirm,select,Markdown)
+
     if user_input == 0:
         console.clear()
         console.print("[bold green underline]LeadGenPy[reset][bold cyan]/[reset][red]Exit", justify="center")
@@ -266,12 +271,13 @@ def main():
         console.print("7] Generate Personalized EmailContent", justify="left")
         console.print("8] Send Personalized Email", justify="left")
         console.print("9] [bold]Production Mode", justify="left")
-        console.print("10] [bold]Export Database into CSV Dataset\n", justify="left")
+        console.print("10] [bold]Export Database into CSV Dataset", justify="left")
+        console.print("11] [bold]Settings\n", justify="left")
         console.print("0] [red]Exit💔", justify="left")
         console.print(Markdown("---"))
 
         user_input = -1
-        while not (0 <= user_input <= 10):
+        while not (0 <= user_input <= 11):
             try:
                 user_input = input()
                 if user_input == "clear":
